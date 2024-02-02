@@ -1,4 +1,4 @@
-To run kidWifi.py script you need to have target wifi BSSID.
+To run the kidWifi.py script you need to have target wifi BSSID.
 
 Generally, to get target wifi BSSID, run "airodump-ng -i <interface>" in terminal. I run that command on Kali Linux OS.
 

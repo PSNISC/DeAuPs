@@ -3,6 +3,7 @@ To run the kidWifi.py script, your network interface needs to be in monitoring m
 
 
 Usage: python3 kidWifi.py -e ( ESSID ) -i ( interface )
+
 Eg: python3 kiwWifi.py -e "John_wifi" -i wlan0mon
 
 

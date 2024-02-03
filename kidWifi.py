@@ -106,7 +106,7 @@ def air( IF, ESSID ):
 
     subprocess.run( f"""sudo grep -i "{ ESSID }" wifiInterF.txt | awk '!seen[$1]++ {{ bssid = $1; }} END {{ print "b=" bssid; }}' > wifiBssid.py""", shell = True, check = True )
 
-    subprocess.run( f"""sudo grep -i "{ ESSID }" wifiInterF.txt | awk '!seen[$1]++ {{ chnel = $6; }} END {{ print "c=" chnel }}' > wifiChannel.py""", shell = True, check = True )
+    subprocess.run( f"""sudo grep -i "{ ESSID }" wifiInterF.txt | awk '!seen[$1]++ {{ chnel = $6; }} END {{ print "c=" chnel; }}' > wifiChannel.py""", shell = True, check = True )
 
     time.sleep( 1 )
 
@@ -147,4 +147,3 @@ def air( IF, ESSID ):
     kiddDeAuth( dic[ "bssid" ], IF )
 
 air( str( input( f"\n{ green }Interface ( wlan0, wlan0mon, etc... ) : \n" ) ), str( input( f"\n{ green }ESSID or wifi name : \n" ) ) )
-

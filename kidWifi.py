@@ -68,7 +68,7 @@ def kiddDeAuth( BSSID, interface ):
 
         subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
 
-        print( f"{ red }\nStop sending DeAuth and files created by this script has been deleted!\n" )
+        print( f"{ red }\nStop sending DeAuth and files created by this script have been deleted!\n" )
 
         sys.exit( 0 )
 

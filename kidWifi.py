@@ -32,7 +32,7 @@ def iwCh( channel, interface ):
 
     except:
 
-        print( f"\n{ red }Getting error in setting channel of { interface }!" )
+        print( f"\n{ red }Getting error in setting channel on { interface }!" )
 
         sys.exit( 0 )
 

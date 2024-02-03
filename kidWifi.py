@@ -83,7 +83,7 @@ def kiddDeAuth( BSSID, interface ):
 def air( IF, ESSID ):
 
     dic = {}
-    
+
     try:
 
         f = open( "wifiInterF.txt", "x" )
@@ -132,7 +132,7 @@ def air( IF, ESSID ):
 
             if "=" in x:
 
-                dic[ "channel" ] = x.split( "=" )[1] if int( x.split( "=" )[ 1 ] ) else print( f"\n\n{ red }Error in assigning channel!\n\n" )
+                dic[ "channel" ] = x.split( "=" )[ 1 ] if int( x.split( "=" )[ 1 ] ) else print( f"\n\n{ red }Error in assigning channel!\n\n" )
 
     except:
 

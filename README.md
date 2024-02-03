@@ -6,8 +6,8 @@ After you run 'python3 kidWifi.py' in your terminal, two prompts will appear, re
 
 
 
-The program will work by sending DeAuth frames to the target client device for 20 seconds and then take a nap for 1 minute.
+The program will work by sending DeAuth frames to the target client device for 20 seconds and then take a nap for 1 minute. It will loop indefinitely and will stop only when you manually terminate the process using 'Control + C' or 'Control + Z'.
 
 
 
-Allowing your neighbors to enjoy uninterrupted connectivity :3
+Allow your neighbors to enjoy uninterrupted connectivity :3

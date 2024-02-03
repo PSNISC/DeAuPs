@@ -26,7 +26,7 @@ def iwCh( channel, interface ):
 
         subprocess.run( f"sudo iwconfig { interface } channel { channel }", shell = True, check = True )
 
-        print( f"\n{ green }Channel is set to { channel } in { interface }!" )
+        print( f"\n{ green }Channel is set to { channel } on { interface }!" )
 
         time.sleep( 2 )
 
@@ -90,7 +90,7 @@ def air( IF, ESSID ):
 
     except:
 
-        print( f"\n\n{ red }Error in file cration!\n\n" )
+        print( f"\n\n{ red }Error in file creation!\n\n" )
 
         sys.exit( 0 )
 
@@ -147,5 +147,4 @@ def air( IF, ESSID ):
     kiddDeAuth( dic[ "bssid" ], IF )
 
 air( str( input( f"\n{ green }Interface ( wlan0, wlan0mon, etc... ) : \n" ) ), str( input( f"\n{ green }ESSID or wifi name : \n" ) ) )
-
 

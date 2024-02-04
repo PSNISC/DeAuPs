@@ -156,19 +156,18 @@ def air( IF, ESSID ):
 
 def main():
 
-    parser = argparse.ArgumentParser( description = "How to use?" )
+    creOpt = argparse.ArgumentParser( description = "How to use?" )
 
-    parser.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
+    creOpt.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
 
-    parser.add_argument( "-e", "--essid", type = str, required = True, help = "ESSID or wifi name" )
+    creOpt.add_argument( "-e", "--essid", type = str, required = True, help = "ESSID or wifi name" )
 
-    arg = parser.parse_args()
+    opt = creOpt.parse_args()
 
-    air( arg.interface, arg.essid )
+    air( opt.interface, opt.essid )
 
 if __name__ == "__main__":
 
     main()
-
 
 

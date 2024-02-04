@@ -1,4 +1,4 @@
-import subprocess, time, sys, argparse, threading
+import subprocess, time, sys, argparse
 
 
 
@@ -126,7 +126,7 @@ def air( IF, ESSID ):
 
         sys.exit( 0 )
 
-    p = subprocess.Popen( ["sudo", "airodump-ng", "-i", IF ], stdout= f )
+    p = subprocess.Popen( [ "sudo", "airodump-ng", "-i", IF ], stdout= f )
 
     print( "\n\n" )
 

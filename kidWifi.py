@@ -120,7 +120,7 @@ def air( IF, ESSID ):
 
             if "=" in x:
 
-                dic[ "bssid" ] = x.split( "=" )[ 1 ] if len( x.split( "=" )[ 1 ] ) > 1 else print( f"\n\n{ red }Bssid can not be assigned, may be there is no name wifi!\n\n" )
+                dic[ "bssid" ] = x.split( "=" )[ 1 ] if len( x.split( "=" )[ 1 ] ) > 1 else print( f"\n\n{ red }Error : May be that airodump-ng does not work!\n\n" )
 
             else:
 
@@ -169,5 +169,4 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 

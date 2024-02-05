@@ -116,6 +116,8 @@ def kiddDeAuth( BSSID, interface ):
 
 def air( IF, ESSID ):
 
+    ESSID = ESSID.lower()
+
     dic = {}
 
     try:

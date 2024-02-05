@@ -138,11 +138,15 @@ def air( IF, ESSID ):
 
     print( f"\n\n\n{ green }Program got fishbox ✔\n\n" )
 
-    subprocess.run( "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID, shell = True, check = True )
+    cmd1 = "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID
+
+    cmd2 = "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $7 }' > wifiChannel.py" % ESSID
+
+    subprocess.run( cmd1, shell = True, check = True )
 
     time.sleep( 0.2 )
 
-    subprocess.run( "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $7 }' > wifiChannel.py" % ESSID, shell = True, check = True )
+    subprocess.run( cmd2, shell = True, check = True )
 
     time.sleep( 0.2 )
 

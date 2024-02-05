@@ -60,7 +60,7 @@ def iwCh( channel, interface ):
 
         subprocess.run( cmd, shell = True, check = True )
 
-        print( f"{ green }Channel is set to { channel } on { interface } ✔\n\n" )
+        print( f"{ green }Channel is set to { channel } on { interface }\n\n" )
 
     except:
 
@@ -138,7 +138,7 @@ def air( IF, ESSID ):
 
     p.wait()
 
-    print( f"\n\n\n{ green }Program got fishbox ✔\n\n" )
+    print( f"\n\n\n{ green }Program got fishbox\n\n" )
 
     cmd1 = "grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID
 

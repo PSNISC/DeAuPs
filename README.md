@@ -1,6 +1,6 @@
-To run the kidWifi.py script, your network interface needs to be in monitoring mode to allow the script to create a capture file using airodump-ng -i IF( interface ).
+1. To run the kidWifi.py script, your network interface needs to be in monitoring mode to allow the script to create a capture file using airodump-ng -i IF( interface ).
 
-Run the script in a full-screen terminal and ensure the correct ESSID.
+2. Run the script in a full-screen terminal and ensure the correct ESSID.
 
 
 

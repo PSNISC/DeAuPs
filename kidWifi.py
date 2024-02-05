@@ -56,7 +56,9 @@ def iwCh( channel, interface ):
 
     try:
 
-        subprocess.run( f"sudo iwconfig { interface } channel { channel }", shell = True, check = True )
+        cmd = f"sudo iwconfig { interface } channel { channel }"
+
+        subprocess.run( cmd, shell = True, check = True )
 
         print( f"{ green }Channel is set to { channel } on { interface } ✔\n\n" )
 
@@ -156,9 +158,21 @@ def air( IF, ESSID ):
 
         cFile = open( "wifiChannel.py", "r" )
 
-        dic[ "bssid" ] = bFile.read().strip()
+        bssid = bFile.read().strip()
 
-        dic[ "channel" ] = cFile.read().strip()
+        chnel = cFile.read().strip()
+
+        if bssid == "" or chnel == "":
+
+            print( f"\n\n{ blue }Run the script in a full-screen terminal and ensure the correct ESSID.\n\n" )
+
+            sys.exit( 0 )
+
+        else:
+
+            dic[ "bssid" ] = bssid
+
+            dic[ "channel" ] = chnel
 
     except:
 

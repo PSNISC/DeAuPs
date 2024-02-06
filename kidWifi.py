@@ -202,7 +202,7 @@ def air( IF ):
 
         if bssid == "" or chnel == "":
 
-            print( f"\n\n{ yellow }1. Run the script in a full-screen terminal\n2. Ensure the correct ESSID\n3. Ensure your IF is in monitor mode.\n\n" )
+            print( f"\n\n{ yellow }1. Run the script in a full-screen terminal\n\n2. Ensure your IF is in monitor mode.\n\n" )
 
             sys.exit( 0 )
 

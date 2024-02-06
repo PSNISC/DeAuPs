@@ -1,6 +1,6 @@
 1. Run the script in a full-screen terminal.
 
-2. To run the kidWifi.py script, your network interface needs to be in monitoring mode to allow the script to create a capture file using airodump-ng -i IF( interface ).
+2. To run the kidWifi.py script, your network interface needs to be in monitoring mode to allow the script to create a capture file using airodump-ng -i IF( interface ). You only need to set monitoring mode network interface in the command with option i ( -i ). It will take approximately 11 seconds to capture the fishes( wifi ESSID or wifi names ), and then the program will display their names. Then choose the one whatever you like.
 
 3. You need to have inquirer package.
 

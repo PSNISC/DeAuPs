@@ -148,7 +148,7 @@ def air( IF ):
 
     p.wait()
 
-    essidCmd = "sudo awk '{ print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20 }' wifiInterF.txt | sort -u > essidColt.py"
+    essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' wifiInterF.txt | sort -u > essidColt.py"
 
     subprocess.run( essidCmd, shell = True, check = True )
 
@@ -166,13 +166,15 @@ def air( IF ):
 
             lst.append( mdWrd.strip() )
 
-    clnData = [ re.sub( r'\x1b\[.*?K', '', x ) for x in lst ]
+    clnData = [ re.sub( r"\x1b\[.*?K", "", x ) for x in lst ]
 
     clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
 
     resultLst = list( set( clnData1 ) )
 
-    wihOne = [ inquirer.List( "opt", message = "Choose a fish name", choices = resultLst ) ]
+    tile = f"Choose a fish name in { len( resultLst ) }"
+
+    wihOne = [ inquirer.List( "opt", message = tile, choices = resultLst ) ]
 
     wifiName = inquirer.prompt( wihOne )[ "opt" ]
 

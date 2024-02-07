@@ -140,6 +140,8 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
                 if noBssid.lower() == "no such bssid available" or noBssid:
 
+                    print( f"\n\n{ yellow }No BSSID caution is appearing!\n\n" )
+
                     air( interface, ESSID )
 
             except:

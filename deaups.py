@@ -154,7 +154,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
         print( f"\n\n{ green }Taking a nap 💤\n\n" )
 
-        time.sleep( 5 )
+        time.sleep( 60 )
 
         kiddDeAuth( BSSID, interface, ESSID )
 

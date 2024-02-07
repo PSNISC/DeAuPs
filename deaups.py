@@ -26,7 +26,9 @@ blue = "\033[1;34m"
 
 def deleteF():
 
-    subprocess.run( "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py", shell = True, check = True )
+    cmd = "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py"
+
+    subprocess.run( cmd, shell = True, check = True )
 
 
 

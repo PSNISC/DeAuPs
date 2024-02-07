@@ -102,7 +102,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
         p = subprocess.Popen( cmd, stdout = chkErrF, stderr = subprocess.PIPE )
 
-        time.sleep( 20 )
+        time.sleep( 25 )
 
         p.terminate()
 

@@ -26,7 +26,7 @@ blue = "\033[1;34m"
 
 def deleteF():
 
-    cmd = "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py"
+    cmd = "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-02.csv ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-01.csv ./wifi_-rble1-_DeAuPs/cltNmeCsv.py ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py"
 
     subprocess.run( cmd, shell = True, check = True )
 
@@ -154,7 +154,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
         print( f"\n\n{ green }Taking a nap 💤\n\n" )
 
-        time.sleep( 60 )
+        time.sleep( 6 )
 
         kiddDeAuth( BSSID, interface, ESSID )
 
@@ -176,6 +176,10 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
 def air( IF, rstEssid = None ):
 
+    clrCmd = "sudo clear"
+
+    subprocess.run( clrCmd, shell = True, check = True )
+
     delMkDirCmd = "rm -rf wifi_-rble1-_DeAuPs"
 
     subprocess.run( delMkDirCmd, shell = True, check = True )
@@ -188,23 +192,33 @@ def air( IF, rstEssid = None ):
 
     lst = []
 
+    csvLst = []
+
     rmLst = [ "AUTH", "ESSID", "PSK", "OPN", "0>" ]
 
     dic = {}
 
-    f = open( "./wifi_-rble1-_DeAuPs/wifiInterF.txt", "w" )
+    fTxt = open( "./wifi_-rble1-_DeAuPs/wifiInterF.txt", "w" )
+
+    fCsv = open( "./wifi_-rble1-_DeAuPs/wifiInterFceCsv-01.csv", "w" )
 
     cmd = [ "sudo", "airodump-ng", "-i", IF ]
 
-    p = subprocess.Popen( cmd, stdout = f )
+    esidCsvCmd = [ "sudo", "airodump-ng", "-w", "./wifi_-rble1-_DeAuPs/wifiInterFceCsv", "--output-format", "csv", IF ]
 
-    print( "\n\n" )
+    p = subprocess.Popen( cmd, stdout = fTxt )
+
+    csvPrcs = subprocess.Popen( esidCsvCmd, stdout = fCsv )
 
     downLine()
 
     p.terminate()
 
+    csvPrcs.terminate()
+
     p.wait()
+
+    csvPrcs.wait()
 
     if rstEssid == None:
 
@@ -230,17 +244,45 @@ def air( IF, rstEssid = None ):
 
         clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
 
-        resultLst = list( set( clnData1 ) )
+        resultLst = set( clnData1 )
 
-        tile = f"Choose a fish name in { len( resultLst ) }"
+        cltCsvCmd = "sudo awk -F',' '{if ($1 ~ /Station/ || $1 ~ /BSSID/) next; print $14}' ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-02.csv | sort -u > ./wifi_-rble1-_DeAuPs/cltNmeCsv.py"
 
-        wihOne = [ inquirer.List( "opt", message = tile, choices = resultLst ) ]
+        subprocess.run( cltCsvCmd, shell = True, check = True )
 
-        wifiName = inquirer.prompt( wihOne )[ "opt" ]
+        radCsvF = open( "./wifi_-rble1-_DeAuPs/cltNmeCsv.py", "r" )
 
-        dic[ "fishName" ] = wifiName
+        while radCsvF.readline():
 
-        dic[ "ESSID" ] = wifiName.lower()
+            csvLst.append( radCsvF.read().strip() )
+
+        nameStr = " ".join( csvLst )
+
+        vldNme = nameStr.split( "\n" )
+
+        esidNme = [ x.strip() for x in vldNme if x.strip() ]
+
+        essidName = set( esidNme )
+
+        existEsid = list( resultLst.intersection( essidName ) )
+
+        if len( existEsid ) != 0:
+
+            realEssid = list( essidName )
+
+            tile = f"Choose a fish name in { len( realEssid ) }"
+
+            wihOne = [ inquirer.List( "opt", message = tile, choices = realEssid ) ]
+
+            wifiName = inquirer.prompt( wihOne )[ "opt" ]
+
+            dic[ "fishName" ] = wifiName
+
+            dic[ "ESSID" ] = wifiName.lower()
+
+        else:
+
+            air( IF )
 
     else:
 

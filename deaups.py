@@ -92,7 +92,7 @@ def kiddDeAuth( BSSID, interface, ESSID ):
 
     try:
 
-        print( f"\n\n{ red }Program is roasting the fish!\n\n" )
+        print( f"\n\n{ red }Program is roasting the { ESSID } fish!\n\n" )
 
         chkErrF = open( "./wifiDeAuPs/wifiChnelSts.py", "w" )
 

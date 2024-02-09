@@ -56,7 +56,7 @@ def waiting( t = 12 ):
 
         else:
 
-            line = f"\r{ green }To restart : { int( p * 102 ) }%"
+            line = f"\r{ green }To restart : { int( p * 101 ) }%"
 
         sys.stdout.write( line )
 
@@ -154,7 +154,35 @@ def configChannel():
 
     except:
 
-        print( f"{ yellow }The wifi may be turned off!" )
+        print( f"\n{ yellow }The wifi may be turned off!" )
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+
+
+
+
+
+
+
+
+def getTargetChannelWithTxt():
+
+    run( "sudo grep -i '%s' ./%s/captureFile.txt | head -n 1 | awk '{ print $7 }' > ./%s/targetChannel.py" % ( project[ "bssid" ], project[ "dirName" ], project[ "dirName" ] ) )
+
+    dream( 0.2 )
+
+    try:
+
+        file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
+
+        return( file.read().strip() )
+
+    except:
 
         deleteDir()
 
@@ -179,6 +207,29 @@ def getTargetChannel():
     try:
 
         file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
+
+        return( file.read().strip() )
+
+    except:
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+
+
+
+def getTargetBssidWithTxt():
+
+    run( "sudo grep -i '%s' ./%s/captureFile.txt | head -n 1 | awk '{ print $2 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+
+    dream( 0.2 )
+
+    try:
+
+        file = open( f"./{ project[ 'dirName' ] }/targetBssid.py", "r" )
 
         return( file.read().strip() )
 
@@ -230,13 +281,21 @@ def createCaptureFiles():
 
     file = open( f"./{ project[ 'dirName' ] }/captureFile-01.csv", "w" )
 
+    file1 = open( f"./{ project[ 'dirName' ] }/captureFile.txt", "w" )
+
     process = subprocess.Popen( [ "sudo", "airodump-ng", "-w", f"./{ project[ 'dirName' ] }/captureFile", "--output-format", "csv", project[ "interface" ] ], stdout = file )
+
+    process1 = subprocess.Popen( [ "sudo", "airodump-ng", "-i", project[ "interface" ] ], stdout = file1 )
 
     waiting()
 
     process.terminate()
 
+    process1.terminate()
+
     process.wait()
+
+    process1.wait()
 
 
 
@@ -286,6 +345,14 @@ def start( restart = False ):
 
             project[ "channel" ] = getTargetChannel()
 
+            if len( getTargetChannel() ) == len( getTargetChannelWithTxt() ):
+
+                project[ "channel" ] = getTargetChannel()
+
+            elif len( getTargetChannel() ) > len( getTargetChannelWithTxt() ):
+
+                project[ "channel" ] = getTargetChannelWithTxt()
+
         else:
 
             createDir()
@@ -298,7 +365,21 @@ def start( restart = False ):
 
             project[ "bssid" ] = getTargetBssid()
 
-            project[ "channel" ] = getTargetChannel()
+            if len( project[ "bssid" ] ) > 18:
+
+                if len( getTargetBssidWithTxt() ) > 18:
+
+                    print( f"\n\n{ blue }Open terminal as full-screen!\n\n" )
+
+                elif len( getTargetBssidWithTxt() < 20 ):
+
+                    project[ "bssid" ] = getTargetBssidWithTxt()
+
+                    project[ "channel" ] = getTargetChannelWithTxt()
+
+            else:
+
+                project[ "channel" ] = getTargetChannel()
 
         configChannel()
 

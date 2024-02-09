@@ -24,7 +24,7 @@ uniqueName = lambda : f"DeAuPs-{ ''.join( random.choice( string.ascii_uppercase 
 
 deleteDir = lambda : run( f"rm -rf ./{ project[ 'dirName' ] }" )
 
-targetName = lambda nameOptionsList : inquirer.prompt( [ inquirer.List( "option", message = "Choose a wifi name", choices = nameOptionsList ) ] )[ "option" ]
+targetName = lambda nameOptionsList : inquirer.prompt( [ inquirer.List( "option", message = "Choose a target name", choices = nameOptionsList ) ] )[ "option" ]
 
 nameOptions = lambda : [ x.strip() for x in [ [ x.strip() for x in open( f"./{ project[ 'dirName' ] }/wifiNames.py", "r" ).readlines() ] ][ 0 ] if x.strip() != "" ]
 

@@ -56,7 +56,7 @@ def waiting( t = 12 ):
 
         else:
 
-            line = f"\r{ green }{ int( p * 102 ) }%"
+            line = f"\r{ green }To restart : { int( p * 102 ) }%"
 
         sys.stdout.write( line )
 
@@ -100,7 +100,7 @@ def startDeAuth():
 
         else:
 
-            print( f"\n{ red }Channel reconfiguration to { searching1[ 0 ] }\n" )
+            print( f"\n{ blue }Channel reconfiguration to { searching1[ 0 ] }\n" )
 
             project[ "channel" ] = searching1[ 0 ]
 
@@ -134,7 +134,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( 6 )
+    waiting( 50 )
 
     startDeAuth()
 

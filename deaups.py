@@ -371,7 +371,7 @@ def start( restart = False ):
 
                     print( f"\n\n{ blue }Open terminal as full-screen!\n\n" )
 
-                elif len( getTargetBssidWithTxt() < 20 ):
+                elif len( getTargetBssidWithTxt() ) < 20:
 
                     project[ "bssid" ] = getTargetBssidWithTxt()
 

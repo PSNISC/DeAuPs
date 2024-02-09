@@ -38,7 +38,7 @@ collectWifiNames = lambda : run( "sudo awk -F',' '{ if ($1 ~ /Station/ || $1 ~ /
 
 
 
-def waiting( t = 12 ):
+def waiting( t = 15 ):
 
     sTime = time.time()
 
@@ -50,7 +50,7 @@ def waiting( t = 12 ):
 
         p = eTime / t
 
-        if t == 12:
+        if t == 15:
 
             line = f"\r{ green }Capturing wireless networks and informations: { '-' * int( length * p ):{ length }s} { int( p * 101 ) }%"
 
@@ -365,13 +365,13 @@ def start( restart = False ):
 
             project[ "bssid" ] = getTargetBssid()
 
-            if len( project[ "bssid" ] ) > 18:
+            if len( project[ "bssid" ] ) > 18 and len( project[ "bssid" ] ) < 16:
 
                 if len( getTargetBssidWithTxt() ) > 18:
 
                     print( f"\n\n{ blue }Open terminal as full-screen!\n\n" )
 
-                elif len( getTargetBssidWithTxt() ) < 20:
+                elif len( getTargetBssidWithTxt() ) < 20 and len( getTargetBssidWithTxt() ) > 16:
 
                     project[ "bssid" ] = getTargetBssidWithTxt()
 

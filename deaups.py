@@ -118,7 +118,7 @@ def startDeAuth():
 
         else:
 
-            print( f"\n{ red }Channel is missing. The wifi may be turned off!\n" )
+            print( f"\n{ blue }Channel is missing. The wifi may be turned off!\n" )
 
             deleteDir()
 
@@ -134,7 +134,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( 50 )
+    waiting( 5 )
 
     startDeAuth()
 
@@ -154,35 +154,7 @@ def configChannel():
 
     except:
 
-        print( f"\n{ yellow }The wifi may be turned off!" )
-
-        deleteDir()
-
-        dream( 2 )
-
-        start( restart = True )
-
-
-
-
-
-
-
-
-
-def getTargetChannelWithTxt():
-
-    run( "sudo grep -i '%s' ./%s/captureFile.txt | head -n 1 | awk '{ print $7 }' > ./%s/targetChannel.py" % ( project[ "bssid" ], project[ "dirName" ], project[ "dirName" ] ) )
-
-    dream( 0.2 )
-
-    try:
-
-        file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
-
-        return( file.read().strip() )
-
-    except:
+        print( f"\n{ blue }Wifi may be turned off!\n" )
 
         deleteDir()
 
@@ -200,36 +172,13 @@ def getTargetChannelWithTxt():
 
 def getTargetChannel():
 
-    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | awk -F ',' '{ print $4 }' > ./%s/targetChannel.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $4 }' > ./%s/targetChannel.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
 
     dream( 0.2 )
 
     try:
 
         file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
-
-        return( file.read().strip() )
-
-    except:
-
-        deleteDir()
-
-        dream( 2 )
-
-        start( restart = True )
-
-
-
-
-def getTargetBssidWithTxt():
-
-    run( "sudo grep -i '%s' ./%s/captureFile.txt | head -n 1 | awk '{ print $2 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
-
-    dream( 0.2 )
-
-    try:
-
-        file = open( f"./{ project[ 'dirName' ] }/targetBssid.py", "r" )
 
         return( file.read().strip() )
 
@@ -251,7 +200,7 @@ def getTargetBssidWithTxt():
 
 def getTargetBssid():
 
-    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | awk -F ',' '{ print $1 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $1 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
 
     dream( 0.2 )
 
@@ -281,21 +230,13 @@ def createCaptureFiles():
 
     file = open( f"./{ project[ 'dirName' ] }/captureFile-01.csv", "w" )
 
-    file1 = open( f"./{ project[ 'dirName' ] }/captureFile.txt", "w" )
-
     process = subprocess.Popen( [ "sudo", "airodump-ng", "-w", f"./{ project[ 'dirName' ] }/captureFile", "--output-format", "csv", project[ "interface" ] ], stdout = file )
-
-    process1 = subprocess.Popen( [ "sudo", "airodump-ng", "-i", project[ "interface" ] ], stdout = file1 )
 
     waiting()
 
     process.terminate()
 
-    process1.terminate()
-
     process.wait()
-
-    process1.wait()
 
 
 
@@ -335,51 +276,29 @@ def start( restart = False ):
 
     try:
 
-        if restart == True:
+        createDir()
 
-            createDir()
+        createCaptureFiles()
 
-            createCaptureFiles()
+        collectWifiNames()
 
-            collectWifiNames()
-
-            project[ "channel" ] = getTargetChannel()
-
-            if len( getTargetChannel() ) == len( getTargetChannelWithTxt() ):
-
-                project[ "channel" ] = getTargetChannel()
-
-            elif len( getTargetChannel() ) > len( getTargetChannelWithTxt() ):
-
-                project[ "channel" ] = getTargetChannelWithTxt()
-
-        else:
-
-            createDir()
-
-            createCaptureFiles()
-
-            collectWifiNames()
+        if restart == False:
 
             project[ "name" ] = targetName( nameOptions() )
 
+        if len( getTargetBssid() ) == 17 and len( re.findall( r"-", getTargetChannel(), re.IGNORECASE ) ) == 0:
+
             project[ "bssid" ] = getTargetBssid()
 
-            if len( project[ "bssid" ] ) > 18 and len( project[ "bssid" ] ) < 16:
+            project[ "channel" ] = getTargetChannel()
 
-                if len( getTargetBssidWithTxt() ) > 18:
+        else:
 
-                    print( f"\n\n{ blue }Open terminal as full-screen!\n\n" )
+            deleteDir()
 
-                elif len( getTargetBssidWithTxt() ) < 20 and len( getTargetBssidWithTxt() ) > 16:
+            dream( 2 )
 
-                    project[ "bssid" ] = getTargetBssidWithTxt()
-
-                    project[ "channel" ] = getTargetChannelWithTxt()
-
-            else:
-
-                project[ "channel" ] = getTargetChannel()
+            start( restart = True )
 
         configChannel()
 

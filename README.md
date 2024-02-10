@@ -1,14 +1,4 @@
-  __  ___ _       __  __ 
- /  )(_  /_| /  //__)(   
-/(_/ /__(  |(__//   __)  
-
-
-
-
-
-
-
-                         
+                      
 1. To run the deaups.py script, your network interface needs to be in monitoring mode to allow the script to create the capture files using airodump-ng. You only need to set monitor mode network interface in the command with option i ( -i ). It will take approximately 14 seconds to capture the fish( wifi ESSID or wifi names ), and then the program will display their names. Then choose the target wifi name whatever you like.
 
 2. You need to have Python's inquirer package.

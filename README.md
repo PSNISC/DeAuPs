@@ -11,7 +11,7 @@ Eg: python3 deaups.py -i wlan0mon
 
 
 
-The program will work by sending DeAuth frames to the target client device for 25 seconds and then take a nap for 50 seconds. It will keep working correctly even if the channel could have been changed and will stop only when you manually terminate the process by pressing 'Control + C' continuously. Have you ever seen the reliable DeAuth tools before!
+The program will work by sending DeAuth frames to the target client device for 25 seconds and then take a nap for 50 seconds. It will keep working correctly even if the channel has been changed and will stop only when you manually terminate the process by pressing 'Control + C' continuously. Is the target WiFi turned off during the attack? Don't worry about the program not continuing to work. It will wait for the target WiFi you selected to turn on again to resume the attack. Have you ever seen such reliable DeAuth tools before?
 
 
 

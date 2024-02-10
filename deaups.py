@@ -72,6 +72,58 @@ def waiting( t = 15 ):
 
 
 
+def getColumnNumber():
+
+    smallProject = {}
+
+    for x in [ y for y in range( 0, 20 ) ]:
+
+        try:
+
+            process = subprocess.Popen( "grep -i 'beacons.*channel\\|channel.*beacons' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $%s }'" % ( project[ "dirName" ], x ), shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+
+            output, _ = process.communicate()
+
+            if _ != b"":
+
+                getColumnNumber()
+
+            output = output.decode( "utf-8" ).strip()
+
+            if output.lower() == "bssid":
+
+                smallProject[ "bssidColumnNumber" ] = x
+
+            elif output.lower() == "channel":
+
+                smallProject[ "channelColumnNumber" ] = x
+
+        except:
+
+            getColumnNumber()
+
+        finally:
+
+            process.terminate()
+
+            process.wait()
+
+    if len( smallProject ) == 2:
+
+        return( smallProject )
+
+    else:
+
+        getColumnNumber()
+
+
+
+
+
+
+
+
+
 def startDeAuth():
 
     file = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "w" )
@@ -172,7 +224,7 @@ def configChannel():
 
 def getTargetChannel():
 
-    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $4 }' > ./%s/targetChannel.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $%s }' > ./%s/targetChannel.py" % ( project[ "name" ], project[ "dirName" ], getColumnNumber()[ "channelColumnNumber" ], project[ "dirName" ] ) )
 
     dream( 0.2 )
 
@@ -200,7 +252,7 @@ def getTargetChannel():
 
 def getTargetBssid():
 
-    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $1 }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], project[ "dirName" ] ) )
+    run( "sudo grep -i '%s' ./%s/captureFile-02.csv | head -n 1 | awk -F ',' '{ print $%s }' > ./%s/targetBssid.py" % ( project[ "name" ], project[ "dirName" ], getColumnNumber()[ "bssidColumnNumber" ], project[ "dirName" ] ) )
 
     dream( 0.2 )
 

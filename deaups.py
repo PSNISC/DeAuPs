@@ -186,7 +186,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( 5 )
+    waiting( 50 )
 
     startDeAuth()
 

@@ -28,7 +28,7 @@ targetName = lambda nameOptionsList : inquirer.prompt( [ inquirer.List( "option"
 
 nameOptions = lambda : [ x.strip() for x in [ [ x.strip() for x in open( f"./{ project[ 'dirName' ] }/wifiNames.py", "r" ).readlines() ] ][ 0 ] if x.strip() != "" ]
 
-collectWifiNames = lambda : run( "sudo awk -F ',' '{ if ($1 ~ /Station/ || $1 ~ /BSSID/) next; print $14 }' ./%s/captureFile-02.csv | sort -u > ./%s/wifiNames.py" % ( project[ "dirName" ], project[ "dirName" ] ) )
+collectWifiNames = lambda : run( "sudo awk -F',' '{ if ($1 ~ /Station/ || $1 ~ /BSSID/) next; print $%s }' ./%s/captureFile-02.csv | sort -u > ./%s/wifiNames.py" % ( getColumnNumber()[ "essidColumnNumber" ], project[ "dirName" ], project[ "dirName" ] ) )
 
 
 
@@ -98,6 +98,10 @@ def getColumnNumber():
 
                 smallProject[ "channelColumnNumber" ] = x
 
+            elif output.lower() == "essid":
+
+                smallProject[ "essidColumnNumber" ] = x
+
         except:
 
             getColumnNumber()
@@ -108,7 +112,7 @@ def getColumnNumber():
 
             process.wait()
 
-    if len( smallProject ) == 2:
+    if len( smallProject ) == 3:
 
         return( smallProject )
 

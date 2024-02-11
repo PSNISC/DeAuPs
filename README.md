@@ -23,7 +23,15 @@
 
 - After running   `python3 install.py`, you will see the message saying that you can start using the `deaups` command. Now `deaups` command is available to use.
 
-- `deaups -i <interface>`
+
+```python
+
+
+deaups -i <interface>
+
+
+```
+
 
 - *The program will work by sending DeAuth frames to the target client device for 25 seconds and then take a nap for 50 seconds. It will automatically create a directory in the current directory where you run `deaups -i <interface>` after running the script and will create the needed files ( targetBssid.py, targetChannel.py, etc... ) in the created directory. It will continue to work correctly even if the channel has been changed and will stop only when you manually terminate the process by continuously pressing 'Control + C'. Is the target WiFi turned off during the attack? Don't worry about the program not continuing to work. It will wait for the target WiFi you selected to turn on again to resume the attack. Have you ever seen such reliable DeAuth tools before?*
 

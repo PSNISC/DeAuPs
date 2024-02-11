@@ -9,16 +9,22 @@
 - You need to have Python's inquirer package. ( pip install inquirer )
 
 
-- Usage: python3 deaups.py -i ( interface )
-
-
 ```python
 
 
-Eg: python3 deaups.py -i wlan0mon
+1. print( 'git clone https://github.com/PSNISC/DeAuPs.git ')
+
+2. cd DeAuPs
+
+3. python3 install.py
+
 
 
 ```
+
+- After running  ``` python python3 install.py ```, you will see the message saying you can start use the ```python deaups ``` command. Now ```python deaups``` command is available to use.
+
+- ```python deaups -i <interface>```
 
 - The program will work by sending DeAuth frames to the target client device for 25 seconds and then take a nap for 50 seconds. It will automatically create a directory in the current directory after running the script and will write the needed files ( targetBssid.py, targetChannel.py, etc... ) in the created directory. It will continue to work correctly even if the channel has been changed and will stop only when you manually terminate the process by continuously pressing 'Control + C'. Is the target WiFi turned off during the attack? Don't worry about the program not continuing to work. It will wait for the target WiFi you selected to turn on again to resume the attack. Have you ever seen such reliable DeAuth tools before?
 

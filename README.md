@@ -1,4 +1,9 @@
-# DEAUPS ## Deauthentication tool
+#   __  ___ _       __  __ 
+ /  )(_  /_| /  //__)(   
+/(_/ /__(  |(__//   __)  
+𝒯𝒽ℯ 𝓇ℯ𝓁𝒾𝒶𝒷𝓁ℯ
+
+## Deauthentication tool
 
 - ***This tool is based on aircrack-ng suite.***
 

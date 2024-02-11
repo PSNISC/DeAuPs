@@ -19,7 +19,6 @@
 3. python3 install.py
 
 
-
 ```
 
 - After running   ```python3 install.py```, you will see the message saying that you can start use the ```deaups``` command. Now ```deaups``` command is available to use.

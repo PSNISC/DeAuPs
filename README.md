@@ -21,7 +21,7 @@
 
 ```
 
-- After running   ```python3 install.py```, you will see the message saying that you can start use the ```deaups``` command. Now ```deaups``` command is available to use.
+- After running   ```python3 install.py```, you will see the message saying that you can start using the ```deaups``` command. Now ```deaups``` command is available to use.
 
 - ```deaups -i <interface>```
 

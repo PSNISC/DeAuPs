@@ -8,6 +8,7 @@
 
 4. Usage: python3 deaups.py -i ( interface )
 
+```python
 5. Eg: python3 deaups.py -i wlan0mon
 
 

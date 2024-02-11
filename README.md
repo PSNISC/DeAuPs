@@ -14,7 +14,19 @@
 
 1. git clone https://github.com/PSNISC/DeAuPs.git
 
+
+```
+
+```python
+
+
 2. cd DeAuPs
+
+
+```
+
+```python
+
 
 3. python3 install.py
 

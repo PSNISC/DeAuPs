@@ -72,6 +72,48 @@ def waiting( t = 15 ):
 
 
 
+def install():
+
+    try:
+
+        run( "sudo touch ./deaups && echo '#! /bin/bash\\npython3 /usr/local/bin/install.py \"$@\"' > ./deaups && chmod +x ./deaups && mv ./deaups /usr/local/bin/ && mv ./install.py /usr/local/bin/" )
+
+    except:
+
+        print( f"{ blue }\nError in installation.\n" )
+
+
+
+
+
+
+
+
+
+def checkDirLocation():
+
+    try:
+
+        location1 = subprocess.check_output( "ls /usr/local/bin/ | grep 'deaups'", shell = True, encoding = "utf-8" ).strip()
+
+        location2 = subprocess.check_output( "ls /usr/local/bin/ | grep 'install.py'", shell = True, encoding = "utf-8" ).strip()
+
+        if location1 and location2:
+
+            return( True )
+
+    except:
+
+        return( False )
+
+
+
+
+
+
+
+
+
 def getColumnNumber():
 
     smallProject = {}
@@ -378,26 +420,39 @@ def start( restart = False ):
 
 def main():
 
-    createOption = argparse.ArgumentParser( description = "How to use?" )
+    if checkDirLocation() == True:
 
-    createOption.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
+        createOption = argparse.ArgumentParser( description = "How to use?" )
 
-    option = createOption.parse_args()
+        createOption.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
 
-    project[ "interface" ] = option.interface
+        option = createOption.parse_args()
 
-    run( "sudo clear" )
+        project[ "interface" ] = option.interface
 
-    print( f"""{ green }
+        run( "sudo clear" )
+
+        print( f"""{ green }
 
   __  ___ _       __  __ 
  /  )(_  /_| /  //__)(   
 /(_/ /__(  |(__//   __)  
 𝒯𝒽ℯ 𝓇ℯ𝓁𝒾𝒶𝒷𝓁ℯ                         
 
+
     """ )
 
-    start()
+        start()
+
+    else:
+
+        install()
+
+        print( f'\n\n{ green }Run "\033[1mdeaups -i <interface>\033[0m"\n\n' )
+
+        sys.exit( 0 )
+
+
 
 
 
@@ -410,3 +465,23 @@ def main():
 if __name__ == "__main__":
 
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

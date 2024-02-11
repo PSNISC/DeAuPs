@@ -12,7 +12,7 @@
 ```python
 
 
-1. print( 'git clone https://github.com/PSNISC/DeAuPs.git ')
+1. git clone https://github.com/PSNISC/DeAuPs.git
 
 2. cd DeAuPs
 

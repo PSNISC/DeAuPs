@@ -20,12 +20,16 @@
 
 ***
 
-- To use this tool, there are only 4 steps to configure. As a first step, run the following command in your terminal.
+- To use this tool, there are only 4 steps to configure. As a first step,
+
+<br>
+
+1. run the following command in your terminal.
 
 ```python
 
 
-1. git clone https://github.com/PSNISC/DeAuPs.git
+git clone https://github.com/PSNISC/DeAuPs.git
 
 
 ```
@@ -35,13 +39,13 @@
 <br>
 
 
-- Go to the `DeAuPs` directory with `cd`( change directory ) commnad.
+2. Go to the `DeAuPs` directory with `cd`( change directory ) commnad.
 
 
 ```python
 
 
-2. cd DeAuPs
+cd DeAuPs
 
 
 ```
@@ -50,12 +54,12 @@
 
 <br>
 
-- In order to use `deaups` command instead of `python3 install.py`, run the following command in the `DeAuPs` directory.
+3. In order to use `deaups` command instead of `python3 install.py`, run the following command in the `DeAuPs` directory.
 
 ```python
 
 
-3. python3 install.py
+python3 install.py
 
 
 ```
@@ -65,13 +69,13 @@
 
 <br>
 
-- Now, run the tool with `deaups` command.
+4. Now, run the tool with `deaups` command.
 
 
 ```python
 
 
-4. deaups -i <interface>
+deaups -i <interface>
 
 
 ```

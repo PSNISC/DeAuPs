@@ -82,6 +82,8 @@ def install():
 
         print( f"{ blue }\nError in installation.\n" )
 
+        sys.exit( 0 )
+
 
 
 
@@ -465,7 +467,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

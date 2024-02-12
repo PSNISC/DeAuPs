@@ -66,9 +66,10 @@
 <br>
 
 
-- After running   `python3 install.py`, you will see the message saying that you can start using the `deaups` command. Now `deaups` command is available to use.
-
 <br>
+
+
+- After running   `python3 install.py`, you will see the message saying that you can start using the `deaups` command. Now `deaups` command is available to use.
 
 <br>
 
@@ -82,9 +83,6 @@ deaups -i <interface>
 
 
 ```
-
-<br>
-
 <br>
 
 ***

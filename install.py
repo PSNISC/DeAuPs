@@ -348,11 +348,11 @@ def createCaptureFiles():
 
     waiting()
 
-    file.close()
-
     process.terminate()
 
     process.wait()
+
+    file.close()
 
 
 

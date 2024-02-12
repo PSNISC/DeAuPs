@@ -76,7 +76,7 @@ def install():
 
     try:
 
-        run( "sudo touch ./deaups && sudo echo '#! /bin/bash\\npython3 /usr/local/bin/install.py \"$@\"' > ./deaups && sudo chmod +x ./deaups && sudo mv ./deaups /usr/local/bin/ && sudo mv ./install.py /usr/local/bin/" )
+        run( "sudo touch ./deaups && sudo echo -e '#! /bin/bash\\npython3 /usr/local/bin/install.py \"$@\"' > ./deaups && sudo chmod +x ./deaups && sudo mv ./deaups /usr/local/bin/ && sudo mv ./install.py /usr/local/bin/" )
 
     except:
 

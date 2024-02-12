@@ -26,7 +26,9 @@
 
 1. run the following command in your terminal.
 
-```pythongit clone https://github.com/PSNISC/DeAuPs.git```
+```python
+git clone https://github.com/PSNISC/DeAuPs.git
+```
 
 <br>
 

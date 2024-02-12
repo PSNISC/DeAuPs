@@ -21,7 +21,6 @@
 
 1. git clone https://github.com/PSNISC/DeAuPs.git
 
-
 ```
 
 ```bash
@@ -29,14 +28,12 @@
 
 2. cd DeAuPs
 
-
 ```
 
 ```bash
 
 
 3. python3 install.py
-
 
 ```
 

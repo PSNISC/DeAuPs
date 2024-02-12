@@ -88,6 +88,6 @@ deaups -i <interface>
 
 <br>
 
-<hr style="border: 0.5px solid #ccc">
+<hr style="border: 0.5px solid;">
 
 <br>

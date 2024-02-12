@@ -27,7 +27,7 @@
 1. run the following command in your terminal.
 
 ```python
-git clone https://github.com/PSNISC/DeAuPs.git
+sudo git clone https://github.com/PSNISC/DeAuPs.git
 ```
 
 <br>
@@ -41,7 +41,7 @@ git clone https://github.com/PSNISC/DeAuPs.git
 ```python
 
 
-cd DeAuPs
+sudo cd DeAuPs
 
 
 ```
@@ -55,7 +55,7 @@ cd DeAuPs
 ```python
 
 
-python3 install.py
+sudo python3 install.py
 
 
 ```

@@ -71,7 +71,7 @@
 ```python
 
 
-deaups -i <interface>
+4. deaups -i <interface>
 
 
 ```

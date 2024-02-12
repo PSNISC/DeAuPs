@@ -39,11 +39,7 @@ sudo git clone https://github.com/PSNISC/DeAuPs.git
 
 
 ```python
-
-
 sudo cd DeAuPs
-
-
 ```
 
 <br>
@@ -53,11 +49,7 @@ sudo cd DeAuPs
 3. In order to use `deaups` command instead of `python3 install.py`, run the following command in the `DeAuPs` directory.
 
 ```python
-
-
 sudo python3 install.py
-
-
 ```
 
 
@@ -69,11 +61,7 @@ sudo python3 install.py
 
 
 ```python
-
-
 deaups -i <interface>
-
-
 ```
 <br>
 

@@ -182,11 +182,11 @@ def startDeAuth():
 
     dream( 25 )
 
-    file.close()
-
     process.terminate()
 
     process.wait()
+
+    file.close()
 
     try:
 

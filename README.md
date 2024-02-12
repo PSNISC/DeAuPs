@@ -18,7 +18,7 @@
 
 <br>
 
-- To use this tool, there are only 4 steps to do. As first, run the following command in your terminal.
+- To utilize this tool, there are only 4 steps to configure. As a first step, run the following command in your terminal.
 
 ```python
 

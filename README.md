@@ -16,7 +16,7 @@
 
 <br>
 
-- To use this tool, run the following command in your terminal.
+- To use this tool, there are only 4 steps to do. As first, run the following command in your terminal.
 
 ```python
 
@@ -31,6 +31,9 @@
 <br>
 
 
+- Go to the `DeAuPs` directory with `cd`( change directory ) commnad.
+
+
 ```python
 
 
@@ -38,6 +41,12 @@
 
 
 ```
+
+<br>
+
+<br>
+
+- In order to use `deaups` command instead of `python3 install.py`, run the following command in the `DeAuPs` directory.
 
 ```python
 
@@ -54,6 +63,10 @@
 - After running   `python3 install.py`, you will see the message saying that you can start using the `deaups` command. Now `deaups` command is available to use.
 
 <br>
+
+<br>
+
+- Now, run the tool with `deaups` command.
 
 
 ```python

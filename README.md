@@ -63,12 +63,6 @@
 
 <br>
 
-
-<br>
-
-
-- After running   `python3 install.py`, you will see the message saying that you can start using the `deaups` command. Now `deaups` command is available to use.
-
 <br>
 
 - Now, run the tool with `deaups` command.

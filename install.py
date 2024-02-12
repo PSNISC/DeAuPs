@@ -398,6 +398,12 @@ def start( restart = False ):
 
         collectWifiNames()
 
+        if len( nameOptions() ) == 0 and restart == False:
+
+            print( f"\n\n{ blue }Make sure your network interface is in monitor mode.\n\n" )
+
+            sys.exit( 0 )
+
         if restart == False:
 
             project[ "name" ] = targetName( nameOptions() )

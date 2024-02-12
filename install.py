@@ -62,7 +62,7 @@ def waiting( t = 15 ):
 
         sys.stdout.flush()
 
-        time.sleep( 0.1 )
+        dream( 0.1 )
 
 
 
@@ -483,7 +483,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

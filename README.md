@@ -87,7 +87,3 @@ deaups -i <interface>
 - Allow your neighbors to enjoy uninterrupted connectivity 😸
 
 <br>
-
-<hr style="border: 0.5px solid;">
-
-<br>

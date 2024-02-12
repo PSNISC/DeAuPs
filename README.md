@@ -16,24 +16,27 @@
 
 <br>
 
-```bash
+```python
 
 
 1. git clone https://github.com/PSNISC/DeAuPs.git
 
+
 ```
 
-```bash
+```python
 
 
 2. cd DeAuPs
 
+
 ```
 
-```bash
+```python
 
 
 3. python3 install.py
+
 
 ```
 

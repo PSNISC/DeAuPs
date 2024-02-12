@@ -182,6 +182,8 @@ def startDeAuth():
 
     dream( 25 )
 
+    file.close()
+
     process.terminate()
 
     process.wait()
@@ -191,6 +193,8 @@ def startDeAuth():
         file1 = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "r" )
 
         text1 = file1.read().strip()
+
+        file1.close()
 
         searching1 = re.findall( r"but the AP uses channel (\S+)", text1, re.IGNORECASE )
 
@@ -209,6 +213,8 @@ def startDeAuth():
         file2 = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "r" )
 
         text2 = file2.read().strip()
+
+        file2.close()
 
         searching2 = re.findall( r"No such BSSID available", text2, re.IGNORECASE )
 
@@ -280,7 +286,11 @@ def getTargetChannel():
 
         file = open( f"./{ project[ 'dirName' ] }/targetChannel.py", "r" )
 
-        return( file.read().strip() )
+        channel = file.read().strip()
+
+        file.close()
+
+        return( channel )
 
     except:
 
@@ -308,7 +318,11 @@ def getTargetBssid():
 
         file = open( f"./{ project[ 'dirName' ] }/targetBssid.py", "r" )
 
-        return( file.read().strip() )
+        BSSID = file.read().strip()
+
+        file.close()
+
+        return( BSSID )
 
     except:
 
@@ -333,6 +347,8 @@ def createCaptureFiles():
     process = subprocess.Popen( [ "sudo", "airodump-ng", "-w", f"./{ project[ 'dirName' ] }/captureFile", "--output-format", "csv", project[ "interface" ] ], stdout = file )
 
     waiting()
+
+    file.close()
 
     process.terminate()
 
@@ -467,7 +483,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

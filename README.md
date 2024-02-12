@@ -8,7 +8,7 @@
 
 <br>
 
-- To run the tool, your network interface needs to be in monitoring mode to allow the tool to create the capture files using `airodump-ng`. You only need to set monitor mode network interface in the command with option i ( -i ) after installing. It will take approximately 14 seconds to capture the fish( wifi ESSID or wifi names ), and then the tool will display their names. Then choose the target wifi name whatever you like.
+- To run this tool, your network interface needs to be in monitoring mode to allow the tool to create the capture files using `airodump-ng`. You only need to set monitor mode network interface in the command with option i ( -i ) after installing. It will take approximately 14 seconds to capture the fish( wifi ESSID or wifi names ), and then the tool will display their names. Then choose the target wifi name whatever you like.
 
 <br>
 

@@ -16,7 +16,7 @@
 
 <br>
 
-```python
+```bash
 
 
 1. git clone https://github.com/PSNISC/DeAuPs.git
@@ -24,7 +24,7 @@
 
 ```
 
-```python
+```bash
 
 
 2. cd DeAuPs
@@ -32,7 +32,7 @@
 
 ```
 
-```python
+```bash
 
 
 3. python3 install.py

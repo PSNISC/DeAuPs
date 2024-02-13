@@ -65,9 +65,35 @@ deaups -i <interface>
 ```
 <br>
 
+<br>
+
 ***
 
 ## ***Options and long option***
+
+<br>
+
+1. Option h ( -h )
+```python
+deaups -h
+```
+- Option h ( -h ) gets used to see options and their descriptions.
+
+<br>
+
+2. Option i ( -i ), essential for this tool.
+```python
+deaups -i < wlan0, wlan0mon, etc.. >
+```
+- Option i ( -i ) gets used to operate this tool.
+
+<br>
+
+3. No sleep long option ( --no-sleep )
+```python
+deaups -i wlan0 --no-sleep
+```
+- No sleep long option ( --no-sleep ) gets used to declare for non stop attacking.
 
 <br>
 

@@ -81,11 +81,15 @@ deaups -h
 
 <br>
 
+<br>
+
 2. Option i ( -i ), essential for this tool.
 ```python
 deaups -i < wlan0, wlan0mon, etc.. >
 ```
 - Option i ( -i ) gets used to operate this tool.
+
+<br>
 
 <br>
 

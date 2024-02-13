@@ -69,7 +69,7 @@ deaups -i <interface>
 
 ***
 
-## ***Options and long option***
+# ***Options and long option***
 
 <br>
 
@@ -99,7 +99,7 @@ deaups -i wlan0 --no-sleep
 
 ***
 
-## ***How does deaups tool work?***
+# ***How does deaups tool work?***
 
 <br>
 

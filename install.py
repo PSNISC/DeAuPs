@@ -240,7 +240,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( 50 )
+    waiting( int( project[ "sleep" ] ) )
 
     startDeAuth()
 
@@ -450,9 +450,13 @@ def main():
 
         createOption.add_argument( "-i", "--interface", type = str, required = True, help = "Network interface" )
 
+        createOption.add_argument("--no-sleep", action="store_true", help="Disable sleep mode")
+
         option = createOption.parse_args()
 
         project[ "interface" ] = option.interface
+
+        project[ "sleep" ] = 0 if option.no_sleep else 50
 
         run( "sudo clear" )
 
@@ -489,7 +493,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

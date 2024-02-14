@@ -202,7 +202,7 @@ def startDeAuth():
 
         if len( searching1 ) == 0:
 
-            print( f"\n{ green }   Access point uses the right channel." )
+            print( f"\n{ green }{ addSpace() }  Access point uses the right channel." )
 
         else:
 
@@ -222,7 +222,7 @@ def startDeAuth():
 
         if len( searching2 ) == 0:
 
-            print( f"{ green }   The BSSID found." )
+            print( f"{ green }{ addSpace() }  The BSSID found." )
 
         else:
 
@@ -246,11 +246,29 @@ def startDeAuth():
 
     runTime = runningTime()
 
-    print( f"   Operation hour : { runTime[ 'hour' ] }\n   Operation minute : { runTime[ 'minute' ] }" if runTime[ "hour" ] != "0" else f"   Operation minute : { runTime[ 'minute' ] }" )
+    print( f"{ addSpace() }  Operation hour : { runTime[ 'hour' ] }\n{ addSpace() }  Operation minute : { runTime[ 'minute' ] }" if runTime[ "hour" ] != "0" else f"{ addSpace() }  Operation minute : { runTime[ 'minute' ] }" )
 
-    waiting( process = "   Sleeping", t = int( project[ "sleep" ] ) )
+    waiting( process = f"{ addSpace() }  Sleeping", t = int( project[ "sleep" ] ) )
 
     startDeAuth()
+
+
+
+
+
+
+
+
+
+def addSpace():
+
+    emptyString = ""
+
+    for x in range( 0, len( str( project[ "frequency" ] ) ) ):
+
+        emptyString += " "
+
+    return( emptyString )
 
 
 

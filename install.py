@@ -1,5 +1,7 @@
 import subprocess, time, sys, argparse, inquirer, re, random, string, os
 
+from datetime import datetime
+
 
 
 
@@ -242,6 +244,10 @@ def startDeAuth():
 
     project[ "frequency" ] = int( project[ "frequency" ] ) + 1
 
+    runTime = runningTime()
+
+    print( f"   Operation hour : { runTime[ 'hour' ] }.\n   Operation minute : { runTime[ 'minute' ] }" if runTime[ "hour" ] != "0" else f"   Operation minute : { runTime[ 'minute' ] }." )
+
     waiting( process = "   Sleeping", t = int( project[ "sleep" ] ) )
 
     startDeAuth()
@@ -412,6 +418,8 @@ def start( restart = False ):
 
             project[ "frequency" ] = 0
 
+            project[ "startTime" ] = datetime.now().strftime( "%d.%m.%Y %I:%M%p" )
+
         if len( getTargetBssid() ) == 17 and len( re.findall( r"-", getTargetChannel(), re.IGNORECASE ) ) == 0:
 
             project[ "bssid" ] = getTargetBssid()
@@ -487,6 +495,30 @@ def getMoreOptions( option ):
         project[ "attack" ] = 25
 
         project[ "sleep" ] = 50
+
+
+
+
+
+
+
+
+
+def runningTime():
+
+    endTime = datetime.now().strftime( "%d.%m.%Y %I:%M%p" )
+
+    sTime = datetime.strptime( project[ "startTime" ], "%d.%m.%Y %I:%M%p" )
+
+    eTime = datetime.strptime( endTime, "%d.%m.%Y %I:%M%p" )
+
+    runTime = eTime - sTime
+
+    hour = runTime.total_seconds() // 3600
+
+    minute = ( runTime.total_seconds() % 3600 ) // 60
+
+    return( { "hour" : str( int( hour ) ), "minute" : str( int( minute ) ) } )
 
 
 

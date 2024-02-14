@@ -22,14 +22,15 @@
 
 - ## ***Python packages***
 
-1. subprocesstime
-2. sys
-3. argparse
-4. inquirer
-5. re
-6. random
-7. string
-8. os
+1. subprocess
+2. time
+3. sys
+4. argparse
+5. inquirer
+6. re
+7. random
+8. string
+9. os
 
 <br>
 

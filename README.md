@@ -115,7 +115,7 @@ deaups -i wlan0 -a < attack time > -s < sleep time >
 
 ***
 
-# ***How does deaups tool work? ( default ) ***
+# ***How does deaups tool work? ( default )***
 
 <br>
 

@@ -103,7 +103,7 @@ deaups -i wlan0 --no-sleep
 
 <br>
 
-4. Option a ( -a ) and option s ( -s ).
+4. Option a ( -a ) and option s ( -s )
 ```python
 deaups -i wlan0 -a < time > -s < time >
 ```

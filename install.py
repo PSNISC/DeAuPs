@@ -224,7 +224,7 @@ def startDeAuth():
 
         else:
 
-            print( f"\n\n{ blue }Channel is missing. The wifi may be turned off!\n" )
+            print( f"\n\n{ blue }ATWCS gets started.\n" )
 
             deleteDir()
 

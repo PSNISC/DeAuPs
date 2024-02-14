@@ -105,7 +105,7 @@ deaups -i wlan0 --no-sleep
 
 4. Option a ( -a ) and option s ( -s )
 ```python
-deaups -i wlan0 -a < time > -s < time >
+deaups -i wlan0 -a < attack time > -s < sleep time >
 ```
 - Option a ( -a ) will declare for attack time and option s ( -s ) will declare for sleep time. Attack time must be at least 25 seconds and sleep time must be positive integer, minimum is 1 second.
 

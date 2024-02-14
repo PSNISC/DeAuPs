@@ -246,7 +246,7 @@ def startDeAuth():
 
     runTime = runningTime()
 
-    print( f"{ addSpace() }  Operation hour : { runTime[ 'hour' ] }\n{ addSpace() }  Operation minute : { runTime[ 'minute' ] }" if runTime[ "hour" ] != "0" else f"{ addSpace() }  Operation minute : { runTime[ 'minute' ] }" )
+    print( f"{ addSpace() }  Operation time : { runTime[ 'hour' ] } hr and { runTime[ 'minute' ] } min" if runTime[ "hour" ] != "0" else f"{ addSpace() }  Operation time : { runTime[ 'minute' ] } min" )
 
     waiting( process = f"{ addSpace() }  Sleeping", t = int( project[ "sleep" ] ) )
 

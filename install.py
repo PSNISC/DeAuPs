@@ -180,7 +180,7 @@ def startDeAuth():
 
     print( "\n" )
 
-    waiting( process = f"{ yellow }Attacking { project[ 'name' ] }", t = int( project[ "attack" ] ) )
+    waiting( process = f"{ yellow }{ str( int( project[ 'frequency' ] ) + 1 ) }. Attacking { project[ 'name' ] }", t = int( project[ "attack" ] ) )
 
     process.terminate()
 
@@ -200,11 +200,11 @@ def startDeAuth():
 
         if len( searching1 ) == 0:
 
-            print( f"\n{ green }Access point uses the right channel." )
+            print( f"\n{ green }   Access point uses the right channel." )
 
         else:
 
-            print( f"\n{ blue }Channel reconfiguration to { searching1[ 0 ] }\n" )
+            print( f"\n\n{ blue }Channel reconfiguration to { searching1[ 0 ] }\n" )
 
             project[ "channel" ] = searching1[ 0 ]
 
@@ -220,11 +220,11 @@ def startDeAuth():
 
         if len( searching2 ) == 0:
 
-            print( f"{ green }The BSSID found." )
+            print( f"{ green }   The BSSID found." )
 
         else:
 
-            print( f"\n{ blue }Channel is missing. The wifi may be turned off!\n" )
+            print( f"\n\n{ blue }Channel is missing. The wifi may be turned off!\n" )
 
             deleteDir()
 
@@ -240,7 +240,9 @@ def startDeAuth():
 
         start( restart = True )
 
-    waiting( process = "Sleeping", t = int( project[ "sleep" ] ) )
+    project[ "frequency" ] = int( project[ "frequency" ] ) + 1
+
+    waiting( process = "   Sleeping", t = int( project[ "sleep" ] ) )
 
     startDeAuth()
 
@@ -407,6 +409,8 @@ def start( restart = False ):
         if restart == False:
 
             project[ "name" ] = targetName( nameOptions() )
+
+            project[ "frequency" ] = 0
 
         if len( getTargetBssid() ) == 17 and len( re.findall( r"-", getTargetChannel(), re.IGNORECASE ) ) == 0:
 

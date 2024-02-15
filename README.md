@@ -51,7 +51,7 @@
 
 <br>
 
-1. run the following command in your terminal.
+1. Run the following command in your terminal.
 
 ```python
 sudo git clone https://github.com/PSNISC/DeAuPs.git
